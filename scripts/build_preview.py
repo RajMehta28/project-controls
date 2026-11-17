@@ -1,5 +1,7 @@
 """Build preview/index.html (a browser mock of the Power BI pages) from data/*.csv."""
-import json, pandas as pd
+import json, sys, pandas as pd
+sys.path.insert(0, "scripts")
+from pitch import inject
 D="data/"
 wbs=pd.read_csv(D+"wbs.csv",dtype={"wbs_code":str}); cost=pd.read_csv(D+"cost_monthly.csv",dtype={"wbs_code":str},parse_dates=["period_start"])
 ms=pd.read_csv(D+"milestones.csv",parse_dates=["planned_date","actual_or_forecast_date"]); risk=pd.read_csv(D+"risk_register.csv",dtype={"wbs_code":str}); tr=pd.read_csv(D+"cost_trends.csv",dtype={"wbs_code":str})
@@ -44,4 +46,4 @@ data["studies"]={"s1":{"lost":s1,"corr":corr,"m07":int(msx.loc["M07","var"]),"m0
  "s3":{"client":float(pend.get("Client",0)),"internal":float(pend.get("Internal",0)),"eac":float(data["eac"]),
   "items":[{"id":r.trend_id,"desc":r.trend_description,"amt":r.est_cost_impact_usd,"rec":r.recovery_type} for _,r in tr[tr.status=="Pending"].iterrows()]}}
 html=open("scripts/preview_template.html").read().replace("/*DATA*/null",json.dumps(data,default=float))
-open("preview/index.html","w").write(html); print("preview/index.html written")
+open("preview/index.html","w").write(inject(html, "cost")); print("preview/index.html written")

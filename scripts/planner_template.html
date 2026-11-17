@@ -34,11 +34,12 @@ input[type=range]{width:100%;accent-color:var(--accent)}.row{display:flex;gap:8p
 .big{font:600 26px "IBM Plex Mono",monospace}.delta{font:600 14px "IBM Plex Mono",monospace}
 .chk{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.chk:last-child{border-bottom:0}.chk .st{flex:0 0 auto;align-self:flex-start;height:fit-content}.chk b{font-weight:600}
 footer{max-width:1200px;margin:auto;padding:0 16px 24px;color:var(--mute);font-size:12px}
-</style></head><body>
+/*PITCHCSS*/</style></head><body>
 <header><h1>Planner Dashboard <span class="badge">SIMULATION</span></h1>
 <div class="sub intro"><b>My approach:</b> I don't have access to Primavera P6 yet, so I built this schedule myself: 16 civil works activities with logic ties, a baseline, and actual progress to Sep 30, 2026. I look for what really drives the finish date, test recovery options before recommending them, and give management a date with a confidence level, not just a single forecast.</div>
-<nav><a href="#insights">Planner Insights</a><a href="#gantt">Schedule</a><a href="#lookahead">3-Week Look-Ahead</a><a href="#whatif">What-If Simulator</a><a href="#risk">Finish Date Risk</a><a href="#health">Schedule Health</a></nav></header>
+<nav><a href="#pitch">Start Here</a><a href="#insights">Planner Insights</a><a href="#gantt">Schedule</a><a href="#lookahead">3-Week Look-Ahead</a><a href="#whatif">What-If Simulator</a><a href="#risk">Finish Date Risk</a><a href="#health">Schedule Health</a></nav></header>
 <main>
+<!--PITCH-->
 <section id="insights"><div class="kpis" id="kpis"></div>
 <div class="card"><div class="tag">Insight 1</div><h2>What is really driving the finish date?</h2><div class="study"><dl id="i1"></dl><div class="svgc" id="i1c"></div></div></div>
 <div class="card"><div class="tag">Insight 2</div><h2>Did finishing the piers early help?</h2><div class="study"><dl id="i2"></dl><div class="svgc" id="i2c"></div></div></div>
@@ -189,10 +190,10 @@ renderRisk();$("rr").onclick=()=>{seed=Math.floor(Math.random()*1e6);MC=monte(se
   h+=`<tr${r.week_start!=wk&&wk?' style="border-top:2px solid var(--line)"':""}><td>${r.week_start!=wk?fd(d(r.week_start)):""}</td><td>${r.activity_id}${t=="crit"?' <span class="pill R">CP</span>':t=="near"?' <span class="pill A">NC</span>':""}</td><td>${r.task}</td><td class="num">${r.quantity} ${r.unit}</td><td>${r.constraint||"None"}${r.register_link?" ("+r.register_link+")":""}</td><td>${r.constraint_owner}</td><td>${r.need_by?fd(d(r.need_by)):""}</td><td><span class="pill ${c}">${st}</span></td></tr>`;wk=r.week_start});
  $("lt").innerHTML=h})();
 // routing
-const V=["insights","gantt","lookahead","whatif","risk","health"];
+const V=["pitch","insights","gantt","lookahead","whatif","risk","health"];
 function draw(id){if(id=="gantt")gantt("gc",BASE);if(id=="insights"){hbars("i1c",A.filter(a=>a.state!="done").map(a=>({k:a.id+" float",v:BASE.fl[a.id]})),v=>v+" d",r=>r.v<=0?"var(--r)":r.v<=NEAR?"var(--a)":"var(--ev)");renderI3()}if(id=="risk")hist("rc",MC)}
 function show(id){document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id==id));document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")=="#"+id));draw(id)}
-function route(){const h=(location.hash||"").slice(1);show(V.includes(h)?h:"insights")}
+function route(){const h=(location.hash||"").slice(1);show(V.includes(h)?h:"pitch")}
 document.querySelectorAll("nav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const h=a.getAttribute("href");try{history.replaceState(null,"",h)}catch(_){}show(h.slice(1))}));
 addEventListener("hashchange",route);let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(()=>draw(document.querySelector("section.on").id),150)});route();
-</script></body></html>
+/*PITCHJS*/</script></body></html>

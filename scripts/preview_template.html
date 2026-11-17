@@ -34,11 +34,12 @@ td{padding:6px 8px;border-bottom:1px solid var(--line)}td.num{text-align:right;f
 .hm{display:grid;grid-template-columns:24px repeat(5,1fr);gap:3px;font-size:12px}.hm div{min-height:42px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:2px;padding:2px}
 .hm .ax{color:var(--mute);min-height:auto}.chip{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:0 4px;font-size:11px}
 footer{max-width:1200px;margin:auto;padding:0 16px 24px;color:var(--mute);font-size:12px}
-</style></head><body>
+/*PITCHCSS*/</style></head><body>
 <header><h1>Infrastructure Project Controls <span class="badge">SAMPLE DATA</span></h1>
 <div class="sub" id="sub"></div>
-<nav id="nav"><a href="#studies">Cost Studies</a><a href="#summary">Executive Summary</a><a href="#cost">Cost by Package</a><a href="#schedule">Schedule</a><a href="#risk">Risk</a><a href="#trends">Cost Trends</a></nav></header>
+<nav id="nav"><a href="#pitch">Start Here</a><a href="#studies">Cost Studies</a><a href="#summary">Executive Summary</a><a href="#cost">Cost by Package</a><a href="#schedule">Schedule</a><a href="#risk">Risk</a><a href="#trends">Cost Trends</a></nav></header>
 <main>
+<!--PITCH-->
 <section id="summary"><div class="kpis" id="kpis"></div>
 <div class="card"><h2>Package status</h2><div class="tw"><table id="pt"></table></div><p class="n">RAG: Green at or above 0.98, Amber 0.95 to 0.98, Red below 0.95. TCPI blank means actual cost has already passed the package budget.</p></div>
 <div class="card"><h2>Cumulative cost curve ($M)</h2><div class="ch"><div class="svgc" id="sc"></div></div></div></section>
@@ -151,9 +152,9 @@ function draw(){const sec=document.querySelector("section.on");if(!sec)return;co
   vbar("s2c",{labels:["To plan","Reported","CPI x SPI"],data:[S.s2.plan,S.s2.cpi,S.s2.cs].map(v=>v/1e6),colors:["var(--pv)","var(--ev)","var(--ac)"],ref:{name:"Budget",value:S.s2.bac/1e6},fmt:v=>"$"+v.toFixed(2)+"M"});
   hbar("s3c",{labels:["Pending trends"],stacked:true,fmt:v=>"$"+v.toFixed(2)+"M",tfmt:v=>"$"+v+"M",series:[{name:"Client recoverable",data:[S.s3.client/1e6],color:"var(--g)"},{name:"Internal exposure",data:[S.s3.internal/1e6],color:"var(--r)"}]})}}
 sel.onchange=draw;
-const VIEWS=["studies","summary","cost","schedule","risk","trends"];
-function route(){const h=(location.hash||"").slice(1);const id=VIEWS.includes(h)?h:"studies";
+const VIEWS=["pitch","studies","summary","cost","schedule","risk","trends"];
+function route(){const h=(location.hash||"").slice(1);const id=VIEWS.includes(h)?h:"pitch";
  document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id==id));document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")=="#"+id));draw();}
 document.querySelectorAll("nav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const h=a.getAttribute("href");try{history.replaceState(null,"",h)}catch(_){}route.call(null);if(location.hash!==h){document.querySelectorAll("section").forEach(s=>s.classList.toggle("on","#"+s.id==h));document.querySelectorAll("nav a").forEach(x=>x.classList.toggle("on",x===a));draw()}}));
 addEventListener("hashchange",route);let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(draw,150)});route();
-</script></body></html>
+/*PITCHJS*/</script></body></html>

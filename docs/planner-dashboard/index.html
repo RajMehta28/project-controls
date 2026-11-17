@@ -34,11 +34,56 @@ input[type=range]{width:100%;accent-color:var(--accent)}.row{display:flex;gap:8p
 .big{font:600 26px "IBM Plex Mono",monospace}.delta{font:600 14px "IBM Plex Mono",monospace}
 .chk{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.chk:last-child{border-bottom:0}.chk .st{flex:0 0 auto;align-self:flex-start;height:fit-content}.chk b{font-weight:600}
 footer{max-width:1200px;margin:auto;padding:0 16px 24px;color:var(--mute);font-size:12px}
+
+.pitch-wrap{position:relative}
+.ptrack{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:16px;scrollbar-width:none;-webkit-overflow-scrolling:touch;border-radius:16px}
+.ptrack::-webkit-scrollbar{display:none}
+.pslide{--po:#B04A18;flex:0 0 100%;scroll-snap-align:start;min-height:470px;box-sizing:border-box;border-radius:16px;padding:clamp(24px,4vw,52px);display:flex;flex-direction:column;justify-content:center;gap:18px;background:var(--panel);border:1px solid var(--line);color:var(--ink)}
+.pslide.dk{background:#13202B;border-color:#13202B;color:#F5F3EE;--po:#E9895A}
+.pslide.or{background:#B04A18;border-color:#B04A18;color:#FCFBF8}
+.pslide p{margin:0}
+.p-eb{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--po)}
+.pslide.or .p-eb{color:#FCEDE4}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pslide:not(.or){--po:#E9895A}}
+:root[data-theme="dark"] .pslide:not(.or){--po:#E9895A}
+.p-h{font-family:"IBM Plex Sans",system-ui,sans-serif;font-weight:700;font-size:clamp(26px,4vw,46px);line-height:1.08;letter-spacing:-.02em;margin:0;max-width:960px}
+.p-h.p-big{font-size:clamp(32px,5.4vw,64px)}
+.p-sub{font-size:clamp(15px,1.7vw,19px);line-height:1.5;color:var(--mute);max-width:780px}
+.pslide.dk .p-sub{color:#C9D3DA}.pslide.or .p-sub{color:#FCEDE4}
+.p-rule{width:72px;height:6px;border-radius:3px;background:var(--po)}
+.p-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.p-stat{border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.p-num{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:clamp(24px,3vw,36px);line-height:1;color:var(--po)}
+.p-cap{font-size:14px;line-height:1.45;color:var(--mute)}.p-stat b{color:var(--ink);font-size:15px}
+.p-fit{width:100%;border-collapse:collapse;font-size:14.5px}.p-fit th{font-size:12px;letter-spacing:.06em;text-transform:uppercase}.p-fit td{vertical-align:top}
+.p-fit td:first-child{color:var(--mute);width:42%}
+.p-ctas{display:flex;flex-wrap:wrap;gap:10px}
+.p-btn{display:inline-block;padding:11px 18px;border-radius:8px;font-weight:600;text-decoration:none;font-size:15px;border:1px solid #F5F3EE;color:#F5F3EE}
+.p-btn.pri{background:#E9895A;border-color:#E9895A;color:#13202B}
+.p-contact{font-size:13.5px;color:#C9D3DA}
+.pnav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.pdots{display:flex;gap:8px}.pdots button{width:10px;height:10px;padding:0;border-radius:50%;border:0;background:var(--line);cursor:pointer}
+.pdots button.on{background:var(--accent);width:26px;border-radius:5px}
+.parr{display:flex;gap:8px;align-items:center}.parr span{font-size:13px;color:var(--mute);font-family:"IBM Plex Mono",monospace;min-width:44px;text-align:center}
+.parr button{width:40px;height:40px;border-radius:50%;font-size:18px;line-height:1;padding:0}
+.phint{font-size:12.5px;color:var(--mute)}
+@media(max-width:560px){.p-fit td:first-child{width:46%}.pslide{min-height:520px}.phint{display:none}}
 </style></head><body>
 <header><h1>Planner Dashboard <span class="badge">SIMULATION</span></h1>
 <div class="sub intro"><b>My approach:</b> I don't have access to Primavera P6 yet, so I built this schedule myself: 16 civil works activities with logic ties, a baseline, and actual progress to Sep 30, 2026. I look for what really drives the finish date, test recovery options before recommending them, and give management a date with a confidence level, not just a single forecast.</div>
-<nav><a href="#insights">Planner Insights</a><a href="#gantt">Schedule</a><a href="#lookahead">3-Week Look-Ahead</a><a href="#whatif">What-If Simulator</a><a href="#risk">Finish Date Risk</a><a href="#health">Schedule Health</a></nav></header>
+<nav><a href="#pitch">Start Here</a><a href="#insights">Planner Insights</a><a href="#gantt">Schedule</a><a href="#lookahead">3-Week Look-Ahead</a><a href="#whatif">What-If Simulator</a><a href="#risk">Finish Date Risk</a><a href="#health">Schedule Health</a></nav></header>
 <main>
+<section id="pitch"><div class="pitch-wrap"><div class="ptrack" id="ptrack"><div class="pslide dk"><p class="p-eb">Project Controls Planner · Req 301200 · Clay, NY</p><h2 class="p-h p-big">Raj Mehta</h2><div class="p-rule"></div>
+<p class="p-sub" style="font-size:clamp(18px,2.2vw,26px);color:#F5F3EE">I find what drives the finish date, and how to win the time back.</p><p class="p-sub">MS Business Analytics, Syracuse University (2026). Swipe or use the arrows: 6 short slides, then the dashboard.</p></div><div class="pslide"><p class="p-eb">Who I am</p><h2 class="p-h">Analytics first, aimed at project money and time</h2>
+<div class="p-stats">
+<div class="p-stat"><p class="p-num">25+</p><p class="p-cap">KPIs tracked as co-founder and analytics head, City &amp; Talent; automated reporting cut manual effort 40%</p></div>
+<div class="p-stat"><p class="p-num">$75–120K</p><p class="p-cap">Estimated annual savings from my cost models, Lean Six Sigma at Tessy Plastics</p></div>
+<div class="p-stat"><p class="p-num">$105M</p><p class="p-cap">Light-rail cost simulation (Siemens, Forage): forecast EAC three ways, recommended a $112M re-baseline</p></div>
+</div></div><div class="pslide or"><p class="p-eb">The gap, and what I did about it</p><h2 class="p-h p-big">No access to Primavera P6 yet. So I built my own.</h2>
+<p class="p-sub">A simulated $120M site infrastructure scope: 6 work packages, 16 scheduled activities, PostgreSQL views and Power BI measures. This dashboard is the result.</p></div><div class="pslide"><p class="p-eb">What I found</p><h2 class="p-h">What drives the finish, and how to recover it</h2><div class="p-stats"><div class="p-stat"><p class="p-num">+8 days</p><p class="p-cap"><b>Late, driven by the utilities</b><br>Utility runs → testing → turnover.</p></div><div class="p-stat"><p class="p-num">8 days</p><p class="p-cap"><b>Recovered on one activity</b><br>Brings back the Dec&#160;31 baseline.</p></div><div class="p-stat"><p class="p-num">Jan 21</p><p class="p-cap"><b>80% confident finish</b><br>2,000 Monte Carlo runs.</p></div><div class="p-stat"><p class="p-num">3</p><p class="p-cap"><b>Constraints on the critical path</b><br>Flagged in the 3-week look-ahead.</p></div></div></div><div class="pslide"><p class="p-eb">Why I fit · Project Controls Planner 301200</p><h2 class="p-h">The role asks, I bring</h2><div class="tw"><table class="p-fit"><tr><th>The role asks for</th><th>What I bring</th></tr><tr><td>Critical and near-critical path analysis</td><td>Critical path, float and near-critical flags</td></tr><tr><td>Schedule recovery plans</td><td>What-if: 8 days on one activity restores the baseline</td></tr><tr><td>2 to 4 week look-ahead schedules</td><td>3-week look-ahead with a constraint log tied to risks</td></tr><tr><td>Proficiency in Power BI</td><td>DAX and Power Query; 25+ KPI dashboards built</td></tr><tr><td>Schedule metrics, presented clearly</td><td>SPI, CPLI and BEI, each insight ending in a recommendation</td></tr><tr><td>Proficiency in Primavera P6</td><td>In training now; rebuilding this schedule in P6 next</td></tr></table></div></div><div class="pslide dk"><p class="p-eb">Now check my work</p><h2 class="p-h p-big">Ready to do this with real data.</h2>
+<div class="p-ctas"><a class="p-btn pri" href="#insights" data-tab="insights">Open the planner insights →</a><a class="p-btn" href="https://rajmehta28.github.io/project-controls/cost-dashboard/">See my cost view →</a></div>
+<p class="p-contact">rajcmehta03@gmail.com · +1 315 718 3162 · linkedin.com/in/rajmehta2810 · All data is simulated.</p></div></div>
+<div class="pnav"><div class="pdots" id="pdots"></div><span class="phint">Tip: use ← → keys</span><div class="parr"><button id="pprev" aria-label="Previous slide">‹</button><span id="pcnt"></span><button id="pnext" aria-label="Next slide">›</button></div></div></div></section>
 <section id="insights"><div class="kpis" id="kpis"></div>
 <div class="card"><div class="tag">Insight 1</div><h2>What is really driving the finish date?</h2><div class="study"><dl id="i1"></dl><div class="svgc" id="i1c"></div></div></div>
 <div class="card"><div class="tag">Insight 2</div><h2>Did finishing the piers early help?</h2><div class="study"><dl id="i2"></dl><div class="svgc" id="i2c"></div></div></div>
@@ -189,10 +234,21 @@ renderRisk();$("rr").onclick=()=>{seed=Math.floor(Math.random()*1e6);MC=monte(se
   h+=`<tr${r.week_start!=wk&&wk?' style="border-top:2px solid var(--line)"':""}><td>${r.week_start!=wk?fd(d(r.week_start)):""}</td><td>${r.activity_id}${t=="crit"?' <span class="pill R">CP</span>':t=="near"?' <span class="pill A">NC</span>':""}</td><td>${r.task}</td><td class="num">${r.quantity} ${r.unit}</td><td>${r.constraint||"None"}${r.register_link?" ("+r.register_link+")":""}</td><td>${r.constraint_owner}</td><td>${r.need_by?fd(d(r.need_by)):""}</td><td><span class="pill ${c}">${st}</span></td></tr>`;wk=r.week_start});
  $("lt").innerHTML=h})();
 // routing
-const V=["insights","gantt","lookahead","whatif","risk","health"];
+const V=["pitch","insights","gantt","lookahead","whatif","risk","health"];
 function draw(id){if(id=="gantt")gantt("gc",BASE);if(id=="insights"){hbars("i1c",A.filter(a=>a.state!="done").map(a=>({k:a.id+" float",v:BASE.fl[a.id]})),v=>v+" d",r=>r.v<=0?"var(--r)":r.v<=NEAR?"var(--a)":"var(--ev)");renderI3()}if(id=="risk")hist("rc",MC)}
 function show(id){document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id==id));document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")=="#"+id));draw(id)}
-function route(){const h=(location.hash||"").slice(1);show(V.includes(h)?h:"insights")}
+function route(){const h=(location.hash||"").slice(1);show(V.includes(h)?h:"pitch")}
 document.querySelectorAll("nav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const h=a.getAttribute("href");try{history.replaceState(null,"",h)}catch(_){}show(h.slice(1))}));
 addEventListener("hashchange",route);let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(()=>draw(document.querySelector("section.on").id),150)});route();
+
+(function(){const t=document.getElementById('ptrack');if(!t)return;const S=[...t.children],dots=document.getElementById('pdots'),cnt=document.getElementById('pcnt');
+ dots.innerHTML=S.map((_,i)=>`<button aria-label="Slide ${i+1}"></button>`).join('');const D=[...dots.children];
+ const cur=()=>Math.round(t.scrollLeft/(t.clientWidth+16));
+ const go=i=>{i=Math.max(0,Math.min(S.length-1,i));t.scrollTo({left:i*(t.clientWidth+16),behavior:'smooth'})};
+ const upd=()=>{const i=cur();D.forEach((d,k)=>d.classList.toggle('on',k===i));cnt.textContent=(i+1)+' / '+S.length};
+ t.addEventListener('scroll',()=>{clearTimeout(t._u);t._u=setTimeout(upd,60)});D.forEach((d,k)=>d.onclick=()=>go(k));
+ document.getElementById('pprev').onclick=()=>go(cur()-1);document.getElementById('pnext').onclick=()=>go(cur()+1);
+ addEventListener('keydown',e=>{if(!document.getElementById('pitch').classList.contains('on'))return;if(e.key==='ArrowRight')go(cur()+1);if(e.key==='ArrowLeft')go(cur()-1)});
+ document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();const a=document.querySelector('nav a[href="#'+b.dataset.tab+'"]');if(a)a.click();scrollTo(0,0)}));
+ upd()})();
 </script></body></html>
