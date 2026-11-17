@@ -99,8 +99,8 @@ def section(role):
     stats = "".join(f'<div class="p-stat"><p class="p-num">{n}</p><p class="p-cap"><b>{h}</b><br>{s}</p></div>' for n, h, s in r["found"])
     fit = "".join(f"<tr><td>{a}</td><td>{b}</td></tr>" for a, b in r["fit"])
     slides = [
-     f"""<div class="pslide dk"><p class="p-eb">{r['role']} · Req {r['req']} · Clay, NY</p><h2 class="p-h p-big">Raj Mehta</h2><div class="p-rule"></div>
-<p class="p-sub" style="font-size:clamp(18px,2.2vw,26px);color:#F5F3EE">{r['promise']}</p><p class="p-sub">MS Business Analytics, Syracuse University (2026). Swipe or use the arrows: 6 short slides, then the dashboard.</p></div>""",
+     """<div class="pslide dk"><p class="p-eb">MS Business Analytics · Syracuse University</p><h2 class="p-h p-big">Every project report says what happened. Mine says what to do next.</h2><div class="p-rule"></div>
+<p class="p-sub" style="font-size:clamp(18px,2.2vw,26px);color:#F5F3EE"><b>Raj Mehta</b> · Business analyst who turns cost and schedule data into decisions.</p><p class="p-sub">Swipe or use the arrows: 6 short slides, then the dashboard.</p></div>""",
      PROFILE,
      GAP.format(tool=r["tool"]),
      f"""<div class="pslide"><p class="p-eb">What I found</p><h2 class="p-h">{r['found_title']}</h2><div class="p-stats">{stats}</div></div>""",
