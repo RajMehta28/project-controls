@@ -23,7 +23,7 @@ main{max-width:1200px;margin:auto;padding:16px}section{display:none}section.on{d
 td{padding:6px 8px;border-bottom:1px solid var(--line)}td.num{text-align:right;font-family:"IBM Plex Mono",monospace;white-space:nowrap}
 .G{background:var(--gbg);color:var(--g)}.A{background:var(--abg);color:var(--a)}.R{background:var(--rbg);color:var(--r)}
 .pill{padding:1px 7px;border-radius:9px;font-size:12px;font-weight:600}
-.ch{position:relative;height:280px}
+.ch{position:relative;height:280px}.intro{font-size:14px;line-height:1.55}.intro b{font-weight:600}
 .study{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}@media(max-width:820px){.study{grid-template-columns:1fr}}
 .study dl{margin:0;display:grid;grid-template-columns:118px 1fr;gap:8px 12px;font-size:13.5px}.study dt{color:var(--mute);font-weight:500}.study dd{margin:0}
 .impact{font:600 15px "IBM Plex Mono",monospace;color:var(--r)}.tag{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em}
@@ -51,6 +51,7 @@ footer{max-width:1200px;margin:auto;padding:0 16px 24px;color:var(--mute);font-s
 <div class="card"><h2>Open risks by score</h2><div class="tw"><table id="rt"></table></div></div></div></section>
 <section id="trends"><div class="kpis" id="tk"></div><div class="card"><h2>Cost trend log</h2><div class="tw"><table id="tt"></table></div></div></section>
 <section id="studies">
+<div class="card intro"><div class="tag">My take</div><p style="margin:6px 0 0">I built this simulation of a $120M site infrastructure scope to show how I would work as a cost engineer. <b>The numbers are simulated; the thinking is mine.</b> Each study starts with a question a project manager would ask, goes to the data, and ends with a dollar impact and a recommendation, because a cost report should lead to a decision, not just a number.</p></div>
 <div class="card"><div class="tag">Study 1</div><h2>Did we pay for speed nobody used?</h2><div class="study"><dl id="s1"></dl><div><div class="ch sm"><div class="svgc" id="s1c"></div></div></div></div></div>
 <div class="card"><div class="tag">Study 2</div><h2>Which forecast should we believe?</h2><div class="study"><dl id="s2"></dl><div><div class="ch sm"><div class="svgc" id="s2c"></div></div></div></div></div>
 <div class="card"><div class="tag">Study 3</div><h2>Is the pending money really our problem?</h2><div class="study"><dl id="s3"></dl><div><div><div class="svgc" id="s3c"></div></div></div></div></div>

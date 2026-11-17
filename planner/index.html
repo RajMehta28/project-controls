@@ -8,7 +8,7 @@
 :root[data-theme="dark"]{--bg:#141816;--panel:#1d2320;--ink:#e6ebe8;--mute:#9aa7a1;--line:#2e3632;--accent:#6fa8d6;--pv:#7d8984;--ev:#6fa8d6;--ac:#e08a4f;--g:#6cc070;--a:#e0b050;--r:#ec7a6c;--gbg:#1f3322;--abg:#3a3020;--rbg:#3d2420;--bl:#3a4440}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 "IBM Plex Sans",system-ui,sans-serif}
 header{padding:20px 16px 0;max-width:1200px;margin:auto}h1{font-size:20px;margin:0;font-weight:600}
-.sub{color:var(--mute);font-size:13px;margin-top:2px}.badge{display:inline-block;background:var(--abg);color:var(--a);font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:2px}
+.sub{color:var(--mute);font-size:13px;margin-top:2px}.intro{max-width:860px;font-size:13.5px;line-height:1.5;margin-top:6px}.intro b{color:var(--ink);font-weight:600}.badge{display:inline-block;background:var(--abg);color:var(--a);font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:2px}
 nav{display:flex;gap:4px;overflow-x:auto;margin-top:14px;border-bottom:1px solid var(--line)}
 nav a{padding:8px 12px;color:var(--mute);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;font-weight:500}nav a.on{color:var(--ink);border-color:var(--accent)}
 main{max-width:1200px;margin:auto;padding:16px}section{display:none}section.on{display:block}
@@ -36,7 +36,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}.row{display:flex;gap:8p
 footer{max-width:1200px;margin:auto;padding:0 16px 24px;color:var(--mute);font-size:12px}
 </style></head><body>
 <header><h1>Planner Dashboard <span class="badge">SIMULATION</span></h1>
-<div class="sub">Sample infrastructure schedule · 16 activities · status date Sep 30, 2026</div>
+<div class="sub intro"><b>My approach:</b> I don't have access to Primavera P6 yet, so I built this schedule myself: 16 civil works activities with logic ties, a baseline, and actual progress to Sep 30, 2026. I look for what really drives the finish date, test recovery options before recommending them, and give management a date with a confidence level, not just a single forecast.</div>
 <nav><a href="#insights">Planner Insights</a><a href="#gantt">Schedule</a><a href="#lookahead">3-Week Look-Ahead</a><a href="#whatif">What-If Simulator</a><a href="#risk">Finish Date Risk</a><a href="#health">Schedule Health</a></nav></header>
 <main>
 <section id="insights"><div class="kpis" id="kpis"></div>
