@@ -1,0 +1,156 @@
+// =====================================================================
+// Project Controls BI - DAX measures.  SAMPLE DATA ONLY.
+// Create a table called _Measures (Home > Enter data > OK) and add each
+// measure below with New Measure. Formats are noted after each measure.
+// Earned value terms: PV planned value, EV earned value, AC actual cost,
+// BAC budget at completion. "To date" means cumulative to the status
+// month (last month with actuals) or to the month selected in a visual.
+// =====================================================================
+
+Status Month =
+CALCULATE ( MAX ( FactCost[period_start] ), FactCost[has_actuals] = TRUE (), REMOVEFILTERS ( DimDate ) )
+// Format: mmm yyyy
+
+Selected Month =
+MIN ( MAX ( DimDate[MonthStart] ), [Status Month] )
+// The month a visual is looking at, never later than the status month
+
+BAC =
+CALCULATE ( SUM ( DimWBS[bac_usd] ), DimWBS[level] = 2 )
+// Currency. Level 2 only, so the 1.0 roll-up row is not double counted
+
+PV to Date =
+VAR m = MAX ( DimDate[MonthStart] )
+RETURN CALCULATE ( SUM ( FactCost[pv_usd] ), FactCost[period_start] <= m, REMOVEFILTERS ( DimDate ) )
+
+EV to Date =
+VAR m = [Selected Month]
+RETURN CALCULATE ( SUM ( FactCost[ev_usd] ), FactCost[period_start] <= m, REMOVEFILTERS ( DimDate ) )
+
+AC to Date =
+VAR m = [Selected Month]
+RETURN CALCULATE ( SUM ( FactCost[ac_usd] ), FactCost[period_start] <= m, REMOVEFILTERS ( DimDate ) )
+
+PV to Selected =
+VAR m = [Selected Month]
+RETURN CALCULATE ( SUM ( FactCost[pv_usd] ), FactCost[period_start] <= m, REMOVEFILTERS ( DimDate ) )
+// Plan up to the same month as EV and AC, so SPI compares like with like
+
+// S-curve lines: plan runs to December, earned and actual stop at the status month
+EV Curve = IF ( MAX ( DimDate[MonthStart] ) <= [Status Month], [EV to Date] )
+AC Curve = IF ( MAX ( DimDate[MonthStart] ) <= [Status Month], [AC to Date] )
+
+CPI = DIVIDE ( [EV to Date], [AC to Date] )                    // 0.000
+SPI = DIVIDE ( [EV to Date], [PV to Selected] )                  // 0.000
+Cost Variance = [EV to Date] - [AC to Date]                    // Currency
+Schedule Variance = [EV to Date] - [PV to Selected]              // Currency
+
+EAC = DIVIDE ( [BAC], [CPI] )
+// Currency. Assumes today's cost efficiency continues
+
+EAC CPI x SPI =
+[AC to Date] + DIVIDE ( [BAC] - [EV to Date], [CPI] * [SPI] )
+// Currency. Adds schedule pressure to the forecast
+
+ETC = [EAC] - [AC to Date]                                     // Currency
+VAC = [BAC] - [EAC]                                            // Currency (negative = overrun)
+TCPI =
+IF ( [AC to Date] < [BAC], DIVIDE ( [BAC] - [EV to Date], [BAC] - [AC to Date] ) )
+// 0.000. Efficiency needed on remaining work to finish on budget.
+// Blank once actual cost has passed the budget (finishing on budget is no longer possible).
+
+Budget Already Spent = IF ( [AC to Date] >= [BAC], "Over budget already" )
+
+TCPI on EAC = DIVIDE ( [BAC] - [EV to Date], [EAC] - [AC to Date] )
+// Efficiency needed to hit the current forecast instead of the original budget
+
+Percent Complete = DIVIDE ( [EV to Date], [BAC] )              // 0.0%
+
+CPI RAG =
+SWITCH ( TRUE (), ISBLANK ( [CPI] ), BLANK (), [CPI] >= 0.98, "Green", [CPI] >= 0.95, "Amber", "Red" )
+
+SPI RAG =
+SWITCH ( TRUE (), ISBLANK ( [SPI] ), BLANK (), [SPI] >= 0.98, "Green", [SPI] >= 0.95, "Amber", "Red" )
+
+CPI RAG Color =
+SWITCH ( [CPI RAG], "Green", "#2E7D32", "Amber", "#B7791F", "Red", "#C0392B" )
+// Use in conditional formatting: Format > Field value > CPI RAG Color
+
+SPI RAG Color =
+SWITCH ( [SPI RAG], "Green", "#2E7D32", "Amber", "#B7791F", "Red", "#C0392B" )
+
+// ---------- Early warning: overtime vs cost efficiency ----------
+Overtime Share =
+DIVIDE ( SUM ( FactCost[overtime_hours] ), SUM ( FactCost[labor_hours] ) )   // 0.0%
+
+Monthly CPI =
+DIVIDE ( SUM ( FactCost[ev_usd] ), SUM ( FactCost[ac_usd] ) )                 // 0.000
+
+Overtime Warning =
+VAR thisMonth = MAX ( DimDate[MonthStart] )
+VAR prevMonth = EDATE ( thisMonth, -1 )
+VAR otNow  = [Overtime Share]
+VAR otPrev = CALCULATE ( [Overtime Share], DimDate[MonthStart] = prevMonth, REMOVEFILTERS ( DimDate ) )
+VAR cpiNow  = [Monthly CPI]
+VAR cpiPrev = CALCULATE ( [Monthly CPI], DimDate[MonthStart] = prevMonth, REMOVEFILTERS ( DimDate ) )
+RETURN IF ( otNow - otPrev >= 0.01 && cpiPrev - cpiNow >= 0.005, "Warning", BLANK () )
+// Same rule as SQL view pc.vw_overtime_warning
+
+// ---------- Risk ----------
+Risks Total = COUNTROWS ( FactRisk )
+Risks Open = CALCULATE ( COUNTROWS ( FactRisk ), FactRisk[status] = "Open" )
+Risks Closed = CALCULATE ( COUNTROWS ( FactRisk ), FactRisk[status] = "Closed" )
+Risk Closure % = DIVIDE ( [Risks Closed], [Risks Total] )                     // 0%
+Open Risk Exposure = CALCULATE ( SUM ( FactRisk[cost_exposure_usd] ), FactRisk[status] = "Open" )
+
+// ---------- Cost trends ----------
+Trends Approved = CALCULATE ( SUM ( FactTrend[est_cost_impact_usd] ), FactTrend[status] = "Approved" )
+Trends Pending  = CALCULATE ( SUM ( FactTrend[est_cost_impact_usd] ), FactTrend[status] = "Pending" )
+Budget incl. Approved Trends = [BAC] + [Trends Approved]
+Exposure if Pending Approved = [EAC] + [Trends Pending]
+
+// ---------- Schedule ----------
+Milestones Late = CALCULATE ( COUNTROWS ( FactMilestone ), FactMilestone[variance_days] > 0 )
+Avg Milestone Variance (days) = AVERAGE ( FactMilestone[variance_days] )
+
+
+// =====================================================================
+// Page 6: Cost Studies (Question > Data > Finding > $ Impact > Recommendation)
+// =====================================================================
+
+// ---- Study 1: Did we pay for speed nobody used? ----
+// Add a calculated column on FactCost (Table tools > New column):
+//   OT Share Row = ROUND ( DIVIDE ( FactCost[overtime_hours], FactCost[labor_hours] ), 3 )
+Cost Lost to Inefficiency =
+SUMX ( FILTER ( FactCost, FactCost[has_actuals] ), FactCost[ac_usd] - FactCost[ev_usd] )
+
+Cost Lost in High-Overtime Months =
+CALCULATE ( [Cost Lost to Inefficiency], FactCost[OT Share Row] >= 0.14 )
+// Sample data, Drilled Piers: $1.906M
+
+OT vs CPI Correlation =
+// Pearson correlation of monthly overtime share and monthly CPI for the selected package
+VAR t = ADDCOLUMNS ( FILTER ( FactCost, FactCost[has_actuals] ),
+          "x", DIVIDE ( FactCost[overtime_hours], FactCost[labor_hours] ),
+          "y", DIVIDE ( FactCost[ev_usd], FactCost[ac_usd] ) )
+VAR n = COUNTROWS ( t )
+VAR mx = AVERAGEX ( t, [x] )   VAR my = AVERAGEX ( t, [y] )
+VAR cov = SUMX ( t, ( [x] - mx ) * ( [y] - my ) )
+VAR sx = SQRT ( SUMX ( t, ( [x] - mx ) ^ 2 ) )   VAR sy = SQRT ( SUMX ( t, ( [y] - my ) ^ 2 ) )
+RETURN DIVIDE ( cov, sx * sy )
+// Sample data, Drilled Piers: -0.99
+
+// ---- Study 2: Which forecast should we believe? ----
+EAC Remaining to Plan = [AC to Date] + ( [BAC] - [EV to Date] )      // problems stop now
+EAC CPI Method        = [EAC]                                       // BAC / CPI
+EAC CPI SPI Method    = [EAC CPI x SPI]                             // lateness also adds cost
+EAC Spread = MAXX ( { [EAC Remaining to Plan], [EAC CPI Method], [EAC CPI SPI Method] }, [Value] )
+           - MINX ( { [EAC Remaining to Plan], [EAC CPI Method], [EAC CPI SPI Method] }, [Value] )
+Possible Understatement = [EAC CPI SPI Method] - [EAC CPI Method]
+// Sample data, Underground Utilities: about $380K
+
+// ---- Study 3: Is the pending money really our problem? ----
+Pending Client Recoverable = CALCULATE ( SUM ( FactTrend[est_cost_impact_usd] ), FactTrend[status] = "Pending", FactTrend[recovery_type] = "Client" )
+Pending Internal Exposure  = CALCULATE ( SUM ( FactTrend[est_cost_impact_usd] ), FactTrend[status] = "Pending", FactTrend[recovery_type] = "Internal" )
+EAC incl. Internal Pending = [EAC] + [Pending Internal Exposure]
+// Sample data: $2.40M client, $0.89M internal, EAC about $123.97M

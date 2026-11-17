@@ -1,0 +1,13 @@
+week_start,activity_id,task,quantity,unit,constraint,constraint_status,constraint_owner,need_by,register_link
+2026-10-05,A12,Storm line run S-4,320,LF,,Ready,,,
+2026-10-05,A12,Sanitary line MH-12 to MH-14,260,LF,Large-bore pipe delivery,Open,Expediter,2026-10-02,R07
+2026-10-05,A10,Pour footings F-21 to F-24,4,pours,,Ready,,,
+2026-10-05,A14,Encase duct bank segment DB-3,180,LF,,Ready,,,
+2026-10-12,A12,Fire water loop segment FW-3,400,LF,Road crossing permit,Open,Permits Coordinator,2026-10-09,
+2026-10-12,A12,Sanitary line MH-14 to MH-16,280,LF,Large-bore pipe delivery,Open,Expediter,2026-10-09,R07
+2026-10-12,A10,Pour footings F-25 to F-28,4,pours,Rebar delivery,Cleared,Buyer,2026-10-08,
+2026-10-12,A14,Encase duct bank segment DB-4,200,LF,Re-route design for segment 3,Open,Design Lead,2026-10-09,T08
+2026-10-19,A12,Pressure test storm line S-4,1,test,,Ready,,,
+2026-10-19,A12,Storm line run S-5,350,LF,,Ready,,,
+2026-10-19,A10,Pour grade beams GB-7 to GB-9,3,pours,Cold weather protection approval,Open,Cost Lead,2026-10-16,T09
+2026-10-19,A14,Cable pull DB-1 to DB-2,2,pulls,,Ready,,,

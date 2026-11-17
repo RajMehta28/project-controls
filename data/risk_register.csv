@@ -1,0 +1,16 @@
+risk_id,wbs_code,risk_title,owner_role,impact_1to5,likelihood_1to5,cost_exposure_usd,date_raised,date_closed,status,mitigation
+R01,1.1,Rig productivity drops in hard rock layer,Pier Superintendent,4,3,1200000,2026-01-15,2026-04-10,Closed,Added second rig crew; re-sequenced piers
+R02,1.1,Overtime needed to hold pier schedule,Cost Lead,3,4,1800000,2026-03-02,,Open,Weekly overtime vs CPI review
+R03,1.2,Wet weather delays mass grading,Earthworks Manager,4,4,900000,2026-01-10,2026-06-05,Closed,Weather days built in; dewatering
+R04,1.2,Unsuitable soils require over-excavation,Field Engineer,3,2,600000,2026-02-12,2026-05-20,Closed,Geotech test pits ahead of crews
+R05,1.3,Rebar price escalation,Buyer,3,3,750000,2026-03-20,2026-07-15,Closed,Locked supplier pricing for two quarters
+R06,1.3,Concrete supply constrained at peak pours,Concrete Manager,4,2,500000,2026-04-05,,Open,Second batch plant on standby
+R07,1.4,Late delivery of large-bore pipe,Expediter,4,4,1100000,2026-05-03,,Open,Expedite supplier; backup vendor quoted
+R08,1.4,Unknown buried utilities found,Field Engineer,3,3,450000,2026-05-18,2026-08-30,Closed,Ground-penetrating radar survey
+R09,1.5,Duct bank conflicts with utility routing,Design Lead,3,3,400000,2026-06-22,,Open,Clash review before each segment
+R10,1.5,Long lead on switchgear interface parts,Expediter,4,2,350000,2026-07-07,,Open,Early release of purchase order
+R11,1.6,Permit renewal timing,Permits Coordinator,2,2,150000,2026-02-01,2026-03-15,Closed,Renewal filed 60 days early
+R12,1.6,Craft labor availability at peak,Labor Relations,4,3,1000000,2026-04-11,,Open,Hiring plan with union halls
+R13,1.1,Equipment breakdown on primary rig,Equipment Manager,2,3,250000,2026-02-18,2026-03-30,Closed,Spare parts kit on site
+R14,1.3,Cold weather concrete curing,Concrete Manager,3,4,600000,2026-09-10,,Open,Heated enclosures and blankets
+R15,1.0,Scope change from client design update,Project Controls Lead,4,3,1500000,2026-08-14,,Open,Change control with cost and schedule impact

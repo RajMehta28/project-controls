@@ -1,0 +1,13 @@
+milestone_id,wbs_code,milestone_name,planned_date,actual_or_forecast_date,status
+M01,1.2,"Mass grading complete, Area A",2026-03-31,2026-04-24,Complete
+M02,1.1,Test piers accepted,2026-02-27,2026-02-20,Complete
+M03,1.1,50% of production piers drilled,2026-05-29,2026-05-15,Complete
+M04,1.2,Site drainage operational,2026-06-30,2026-07-10,Complete
+M05,1.3,First foundation pour,2026-04-30,2026-04-28,Complete
+M06,1.4,Main water line tie-in,2026-07-31,2026-08-21,Complete
+M07,1.1,All production piers drilled,2026-09-30,2026-09-18,Complete
+M08,1.3,Foundations 50% complete,2026-08-31,2026-09-04,Complete
+M09,1.5,Duct bank route energized,2026-11-30,2026-12-04,Forecast
+M10,1.4,Utilities substantially complete,2026-11-30,2026-12-11,Forecast
+M11,1.3,Foundations complete,2026-12-18,2026-12-18,Forecast
+M12,1.0,Infrastructure turnover,2026-12-31,2027-01-08,Forecast

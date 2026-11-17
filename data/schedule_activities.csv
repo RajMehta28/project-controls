@@ -1,0 +1,17 @@
+activity_id,activity_name,wbs_code,bl_start,bl_finish,act_start,act_finish,fc_finish,fc_duration_days,predecessors,milestone_id
+A01,Mobilize drill rigs,1.1,2026-01-05,2026-01-23,2026-01-05,2026-01-20,,,,
+A02,Test piers and load tests,1.1,2026-01-23,2026-02-27,2026-01-20,2026-02-20,,,A01,M02
+A03,"Production piers, zone 1",1.1,2026-02-27,2026-05-29,2026-02-20,2026-05-15,,,A02,M03
+A04,"Production piers, zone 2",1.1,2026-05-29,2026-09-30,2026-05-15,2026-09-18,,,A03,M07
+A05,Clearing and erosion control,1.2,2026-01-05,2026-02-06,2026-01-05,2026-02-13,,,,
+A06,"Mass grading, Area A",1.2,2026-02-06,2026-03-31,2026-02-13,2026-04-24,,,A05,M01
+A07,Site drainage,1.2,2026-03-31,2026-06-30,2026-04-24,2026-07-10,,,A06,M04
+A08,"Forms and rebar, first foundations",1.3,2026-04-01,2026-04-30,2026-03-30,2026-04-28,,,A02,M05
+A09,"Foundations, zone 1",1.3,2026-04-30,2026-08-31,2026-04-28,2026-09-04,,,A08,M08
+A10,"Foundations, zone 2",1.3,2026-09-30,2026-12-18,2026-09-18,,2026-12-18,,A04;A09,M11
+A11,Water line and tie-in,1.4,2026-05-01,2026-07-31,2026-05-08,2026-08-21,,,A06,M06
+A12,Remaining utility runs,1.4,2026-07-31,2026-11-30,2026-08-21,,2026-12-11,,A11,M10
+A13,Duct bank trenching,1.5,2026-07-01,2026-09-15,2026-07-01,2026-09-22,,,A06,
+A14,Duct bank encasement and cable pull,1.5,2026-09-15,2026-11-30,2026-09-22,,2026-12-04,,A13,M09
+A15,Utility testing and flushing,1.4,2026-11-30,2026-12-21,,,,18,A12,
+A16,Final inspections and turnover,1.0,2026-12-21,2026-12-31,,,,10,A10;A14;A15,M12

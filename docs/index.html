@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project Controls Portfolio | Raj Mehta</title>
+<meta name="description" content="Project controls simulations by Raj Mehta: cost and schedule dashboards built on sample construction data.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f5f2;--panel:#fff;--ink:#1d2421;--mute:#5f6b66;--line:#dfe3df;--accent:#1f5f8b;--a:#b7791f;--abg:#fbf0d9}
+@media (prefers-color-scheme:dark){:root{--bg:#141816;--panel:#1d2320;--ink:#e6ebe8;--mute:#9aa7a1;--line:#2e3632;--accent:#6fa8d6;--a:#e0b050;--abg:#3a3020}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "IBM Plex Sans",system-ui,sans-serif}
+main{max-width:860px;margin:auto;padding:40px 16px}h1{font-size:26px;margin:0 0 6px}.sub{color:var(--mute);margin:0 0 28px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:640px){.cards{grid-template-columns:1fr}}
+a.card{display:block;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;color:inherit;text-decoration:none;transition:border-color .15s}
+a.card:hover{border-color:var(--accent)}.card h2{font-size:17px;margin:0 0 6px}.card p{margin:0 0 12px;color:var(--mute);font-size:14px}
+.card ul{margin:0 0 14px;padding-left:18px;font-size:14px}.go{color:var(--accent);font-weight:600;font-size:14px}
+.badge{display:inline-block;background:var(--abg);color:var(--a);font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;margin-bottom:10px}
+.n{color:var(--mute);font-size:13px;margin-top:28px;border-top:1px solid var(--line);padding-top:14px}
+</style></head><body><main>
+<h1>Project Controls Portfolio</h1>
+<p class="sub">Raj Chetan Mehta · MS Business Analytics, Syracuse University. I don't have access to tools like Ecosys yet, so I built my own simulations of a $120M site infrastructure scope.</p>
+<div class="cards">
+<a class="card" href="cost-dashboard/"><span class="badge">COST</span><h2>Project Controls Dashboard</h2><p>Earned value, forecasts, risk and cost trends, opening with three cost studies.</p>
+<ul><li>$1.91M lost on overtime that bought time nobody used</li><li>A forecast running about $379K too low</li><li>$2.4M of pending "overrun" that is really client scope</li></ul><span class="go">Open dashboard →</span></a>
+<a class="card" href="planner-dashboard/"><span class="badge">SCHEDULE</span><h2>Planner Dashboard</h2><p>Gantt vs baseline, critical and near-critical paths, look-ahead, what-if recovery and finish-date risk.</p>
+<ul><li>Critical path runs through the utilities: turnover +8 days</li><li>3-week look-ahead with a constraint log tied to the risk register</li><li>Recovering 8 days on one activity restores the baseline</li><li>P80 finish date from 2,000 Monte Carlo runs</li></ul><span class="go">Open dashboard →</span></a>
+</div>
+<p class="n">All data is simulated for portfolio purposes. Not affiliated with any company or real project.</p>
+</main></body></html>

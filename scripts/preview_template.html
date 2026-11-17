@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project Controls Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f5f2;--panel:#fff;--ink:#1d2421;--mute:#5f6b66;--line:#dfe3df;--accent:#1f5f8b;--pv:#8a9590;--ev:#1f5f8b;--ac:#c2571a;--g:#2e7d32;--a:#b7791f;--r:#c0392b;--gbg:#e3f1e4;--abg:#fbf0d9;--rbg:#f8e0dc}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141816;--panel:#1d2320;--ink:#e6ebe8;--mute:#9aa7a1;--line:#2e3632;--accent:#6fa8d6;--pv:#7d8984;--ev:#6fa8d6;--ac:#e08a4f;--g:#6cc070;--a:#e0b050;--r:#ec7a6c;--gbg:#1f3322;--abg:#3a3020;--rbg:#3d2420}}
+:root[data-theme="dark"]{--bg:#141816;--panel:#1d2320;--ink:#e6ebe8;--mute:#9aa7a1;--line:#2e3632;--accent:#6fa8d6;--pv:#7d8984;--ev:#6fa8d6;--ac:#e08a4f;--g:#6cc070;--a:#e0b050;--r:#ec7a6c;--gbg:#1f3322;--abg:#3a3020;--rbg:#3d2420}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 "IBM Plex Sans",system-ui,sans-serif}
+header{padding:20px 16px 0;max-width:1200px;margin:auto}h1{font-size:20px;margin:0;font-weight:600}
+.sub{color:var(--mute);font-size:13px;margin-top:2px}.badge{display:inline-block;background:var(--abg);color:var(--a);font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:2px}
+nav{display:flex;gap:4px;overflow-x:auto;margin-top:14px;border-bottom:1px solid var(--line)}
+nav a{padding:8px 12px;color:var(--mute);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;font-weight:500}
+nav a.on{color:var(--ink);border-color:var(--accent)}
+main{max-width:1200px;margin:auto;padding:16px}section{display:none}section.on{display:block}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px}
+.k{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.k .l{font-size:12px;color:var(--mute)}.k .v{font:500 20px "IBM Plex Mono",monospace;margin-top:2px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:820px){.grid{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px;margin-bottom:14px;min-width:0}
+.card h2{font-size:14px;margin:0 0 10px;font-weight:600}.card p.n{color:var(--mute);font-size:12px;margin:8px 0 0}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;color:var(--mute);font-weight:500;border-bottom:1px solid var(--line);padding:6px 8px;white-space:nowrap}
+td{padding:6px 8px;border-bottom:1px solid var(--line)}td.num{text-align:right;font-family:"IBM Plex Mono",monospace;white-space:nowrap}
+.G{background:var(--gbg);color:var(--g)}.A{background:var(--abg);color:var(--a)}.R{background:var(--rbg);color:var(--r)}
+.pill{padding:1px 7px;border-radius:9px;font-size:12px;font-weight:600}
+.ch{position:relative;height:280px}
+.study{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}@media(max-width:820px){.study{grid-template-columns:1fr}}
+.study dl{margin:0;display:grid;grid-template-columns:118px 1fr;gap:8px 12px;font-size:13.5px}.study dt{color:var(--mute);font-weight:500}.study dd{margin:0}
+.impact{font:600 15px "IBM Plex Mono",monospace;color:var(--r)}.tag{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em}
+.ch.sm{height:250px}
+.svgc{width:100%}.ch .svgc{height:100%}.svgc svg{display:block;overflow:visible;font-family:"IBM Plex Sans",system-ui}
+.gl{stroke:var(--line);stroke-width:1}.zl{stroke:var(--mute);stroke-width:1}.tl{fill:var(--mute);font-size:11px}.vl{fill:var(--ink);font:500 10.5px "IBM Plex Mono",monospace}
+.lg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--mute);margin:0 0 6px}.lg span{display:inline-flex;align-items:center;gap:6px}.lg i{display:inline-block;width:12px;height:10px;border-radius:2px}select{font:inherit;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:4px 6px}
+.hm{display:grid;grid-template-columns:24px repeat(5,1fr);gap:3px;font-size:12px}.hm div{min-height:42px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:2px;padding:2px}
+.hm .ax{color:var(--mute);min-height:auto}.chip{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:0 4px;font-size:11px}
+footer{max-width:1200px;margin:auto;padding:0 16px 24px;color:var(--mute);font-size:12px}
+</style></head><body>
+<header><h1>Infrastructure Project Controls <span class="badge">SAMPLE DATA</span></h1>
+<div class="sub" id="sub"></div>
+<nav id="nav"><a href="#studies">Cost Studies</a><a href="#summary">Executive Summary</a><a href="#cost">Cost by Package</a><a href="#schedule">Schedule</a><a href="#risk">Risk</a><a href="#trends">Cost Trends</a></nav></header>
+<main>
+<section id="summary"><div class="kpis" id="kpis"></div>
+<div class="card"><h2>Package status</h2><div class="tw"><table id="pt"></table></div><p class="n">RAG: Green at or above 0.98, Amber 0.95 to 0.98, Red below 0.95. TCPI blank means actual cost has already passed the package budget.</p></div>
+<div class="card"><h2>Cumulative cost curve ($M)</h2><div class="ch"><div class="svgc" id="sc"></div></div></div></section>
+<section id="cost"><div class="grid"><div class="card"><h2>Budget vs forecast at completion ($M)</h2><div><div class="svgc" id="be"></div></div></div>
+<div class="card"><h2>Overtime share vs monthly CPI &nbsp;<select id="otsel"></select></h2><div class="ch"><div class="svgc" id="otc"></div></div><p class="n" id="otn"></p></div></div>
+<div class="card"><h2>Monthly CPI by package</h2><div class="tw"><table id="mc"></table></div></div></section>
+<section id="schedule"><div class="kpis" id="sk"></div><div class="grid"><div class="card"><h2>Milestone variance (days, positive = late)</h2><div><div class="svgc" id="mv"></div></div></div>
+<div class="card"><h2>Milestones</h2><div class="tw"><table id="mt"></table></div></div></div></section>
+<section id="risk"><div class="kpis" id="rk"></div><div class="grid"><div class="card"><h2>Open risks: impact vs likelihood</h2><div class="hm" id="hm"></div><p class="n">Rows impact 5 (top) to 1, columns likelihood 1 to 5.</p></div>
+<div class="card"><h2>Open risks by score</h2><div class="tw"><table id="rt"></table></div></div></div></section>
+<section id="trends"><div class="kpis" id="tk"></div><div class="card"><h2>Cost trend log</h2><div class="tw"><table id="tt"></table></div></div></section>
+<section id="studies">
+<div class="card"><div class="tag">Study 1</div><h2>Did we pay for speed nobody used?</h2><div class="study"><dl id="s1"></dl><div><div class="ch sm"><div class="svgc" id="s1c"></div></div></div></div></div>
+<div class="card"><div class="tag">Study 2</div><h2>Which forecast should we believe?</h2><div class="study"><dl id="s2"></dl><div><div class="ch sm"><div class="svgc" id="s2c"></div></div></div></div></div>
+<div class="card"><div class="tag">Study 3</div><h2>Is the pending money really our problem?</h2><div class="study"><dl id="s3"></dl><div><div><div class="svgc" id="s3c"></div></div></div></div></div>
+<p class="sub" style="margin:0 0 8px">Each study: Question, Data, Finding, $ Impact, Recommendation. Sample data shows the method, not real project results.</p>
+</section>
+</main>
+<footer>Fictional sample data for a portfolio project. Not affiliated with any company or real project. Built from PostgreSQL views; the Power BI version uses the same measures.</footer>
+<script>
+const D=/*DATA*/null;
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const M=v=>(v<0?"-$":"$")+(Math.abs(v)/1e6).toFixed(2)+"M", R=v=>v==null?"":v.toFixed(3);
+const rag=v=>v>=.98?"G":v>=.95?"A":"R", ragTxt={G:"Green",A:"Amber",R:"Red"};
+const pill=v=>{const c=rag(v);return `<span class="pill ${c}">${R(v)}</span>`};
+document.getElementById("sub").textContent=`Status month ${D.status} · 6 work packages · cumulative to date`;
+const k=(id,arr)=>document.getElementById(id).innerHTML=arr.map(([l,v,c])=>`<div class="k"><div class="l">${l}</div><div class="v ${c||""}" style="${c?"background:none":""}">${v}</div></div>`).join("");
+k("kpis",[["Budget (BAC)",M(D.bac)],["Earned (EV)",M(D.ev)],["Actual cost (AC)",M(D.ac)],["CPI",R(D.cpi),rag(D.cpi)],["SPI",R(D.spi),rag(D.spi)],["Forecast (EAC)",M(D.eac)],["Variance at completion",M(D.bac-D.eac)],["% complete",(D.ev/D.bac*100).toFixed(1)+"%"]]);
+document.querySelectorAll(".k .v.G,.k .v.A,.k .v.R").forEach(e=>e.style.color=css(e.classList.contains("G")?"--g":e.classList.contains("A")?"--a":"--r"));
+document.getElementById("pt").innerHTML="<tr><th>Package</th><th>BAC</th><th>AC</th><th>CPI</th><th>SPI</th><th>EAC</th><th>VAC</th><th>TCPI</th></tr>"+D.pkgs.map(p=>`<tr><td>${p.code} ${p.name}</td><td class="num">${M(p.bac)}</td><td class="num">${M(p.ac)}</td><td class="num">${pill(p.cpi)}</td><td class="num">${pill(p.spi)}</td><td class="num">${M(p.eac)}</td><td class="num" style="color:${p.vac<0?css("--r"):css("--g")}">${M(p.vac)}</td><td class="num">${p.tcpi==null?"—":R(p.tcpi)}</td></tr>`).join("");
+const sel=document.getElementById("otsel");sel.innerHTML=D.pkgs.map(p=>`<option value="${p.code}">${p.code} ${p.name}</option>`).join("");
+document.getElementById("mc").innerHTML="<tr><th>Package</th>"+D.ot["1.6"].m.map(m=>`<th>${m}</th>`).join("")+"</tr>"+D.pkgs.map(p=>{const o=D.ot[p.code];return `<tr><td>${p.code} ${p.name}</td>`+D.ot["1.6"].m.map(m=>{const i=o.m.indexOf(m);return i<0?"<td></td>":`<td class="num ${rag(o.cpi[i])}">${o.cpi[i].toFixed(2)}</td>`}).join("")+"</tr>"}).join("");
+const late=D.ms.filter(m=>m.var>0).length;
+k("sk",[["SPI",R(D.spi)],["Milestones late",late+" of "+D.ms.length],["Avg variance",(D.ms.reduce((a,m)=>a+m.var,0)/D.ms.length).toFixed(1)+" days"]]);
+document.getElementById("mt").innerHTML="<tr><th>ID</th><th>Milestone</th><th>Plan</th><th>Actual / forecast</th><th>Days</th><th>Status</th></tr>"+D.ms.map(m=>`<tr><td>${m.id}</td><td>${m.name}</td><td>${m.plan}</td><td>${m.act}</td><td class="num" style="color:${m.var>0?css("--r"):css("--g")}">${m.var>0?"+":""}${m.var}</td><td>${m.status}</td></tr>`).join("");
+const open=D.risks.filter(r=>r.status=="Open"),closed=D.risks.length-open.length;
+k("rk",[["Open risks",open.length],["Closed",closed],["Closure rate",Math.round(closed/D.risks.length*100)+"%"],["Open exposure",M(open.reduce((a,r)=>a+r.exp,0))]]);
+let hm="";for(let i=5;i>=1;i--){hm+=`<div class="ax">${i}</div>`;for(let l=1;l<=5;l++){const s=i*l,c=s>=12?"R":s>=6?"A":"G";hm+=`<div class="${c}">${open.filter(r=>r.i==i&&r.l==l).map(r=>`<span class="chip">${r.id}</span>`).join("")}</div>`}}
+hm+=`<div class="ax"></div>`+[1,2,3,4,5].map(l=>`<div class="ax">${l}</div>`).join("");document.getElementById("hm").innerHTML=hm;
+document.getElementById("rt").innerHTML="<tr><th>ID</th><th>Risk</th><th>Owner</th><th>Score</th><th>Exposure</th><th>Mitigation</th></tr>"+open.sort((a,b)=>b.i*b.l-a.i*a.l||b.exp-a.exp).map(r=>`<tr><td>${r.id}</td><td>${r.title}</td><td>${r.owner}</td><td class="num">${r.i*r.l}</td><td class="num">${M(r.exp)}</td><td>${r.mit}</td></tr>`).join("");
+const ap=D.trends.filter(t=>t.status=="Approved").reduce((a,t)=>a+t.amt,0),pe=D.trends.filter(t=>t.status=="Pending").reduce((a,t)=>a+t.amt,0);
+k("tk",[["Approved trends",M(ap)],["Pending trends",M(pe)],["Budget incl. approved",M(D.bac+ap)],["EAC if pending approved",M(D.eac+pe)]]);
+document.getElementById("tt").innerHTML="<tr><th>ID</th><th>Package</th><th>Description</th><th>Raised</th><th>Impact</th><th>Status</th></tr>"+D.trends.map(t=>`<tr><td>${t.id}</td><td>${t.wbs}</td><td>${t.desc}</td><td>${t.date}</td><td class="num">${M(t.amt)}</td><td><span class="pill ${t.status=="Approved"?"G":"A"}">${t.status}</span></td></tr>`).join("");
+const S=D.studies,dl=(id,rows)=>document.getElementById(id).innerHTML=rows.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join("");
+const pct=v=>(v*100).toFixed(0)+"%",K=v=>"$"+Math.round(v/1e3)+"K";
+dl("s1",[["Question","Drilled Piers is ahead of schedule. Was the overtime worth it?"],["Data","Monthly overtime share, monthly CPI, milestone dates."],
+ ["Finding",`Overtime rose from ${pct(S.s1.otFrom)} to ${pct(S.s1.otTo)} of hours while CPI fell from ${S.s1.cpiFrom.toFixed(2)} to ${S.s1.cpiTo.toFixed(2)} (correlation ${S.s1.corr.toFixed(2)}). Piers finished ${Math.abs(S.s1.m07)} days early (M07), but Foundations reached 50% ${S.s1.m08} days late (M08), so the head start was not used.`],
+ ["$ Impact",`<span class="impact">${M(S.s1.lost)}</span> lost to inefficiency in months with 14%+ overtime.`],
+ ["Recommendation","Approve overtime only when the next trade can use the time gained. Review overtime against CPI every month."]]);
+dl("s2",[["Question","Underground Utilities is behind and over. What will it really cost?"],["Data","Three standard forecast methods, milestone delays."],
+ ["Finding",`Tie-in was ${S.s2.m06} days late (M06) and completion is forecast ${S.s2.m10} days late (M10). Schedule pressure is real, so the CPI x SPI method fits best.`],
+ ["$ Impact",`Reported forecast ${M(S.s2.cpi)} is likely about <span class="impact">${K(S.s2.cs-S.s2.cpi)}</span> too low.`],
+ ["Recommendation","Choose the forecast method per package from what is driving it. Flag Utilities now, not at year-end."]]);
+dl("s3",[["Question",`${M(S.s3.client+S.s3.internal)} of cost trends are pending. How much is a real overrun?`],["Data","Pending trends tagged by who pays: client (change order) or internal."],
+ ["Finding",`${M(S.s3.client)} is a client design change, which is new scope to recover by change order. Only ${M(S.s3.internal)} is internal exposure.`],
+ ["$ Impact",`Forecast if pending trends are approved: <span class="impact">${M(S.s3.eac+S.s3.internal)}</span>, not ${M(S.s3.eac+S.s3.internal+S.s3.client)}.`],
+ ["Recommendation","Tag every trend client-recoverable or internal and report them separately. Push the client change through change control."]]);
+const $=id=>document.getElementById(id);
+function ticks(min,max,n=5){if(min==max){min-=1;max+=1}const st0=(max-min)/n,mag=Math.pow(10,Math.floor(Math.log10(st0)));const st=[1,2,2.5,5,10].map(k=>k*mag).find(k=>k>=st0);const lo=Math.floor(min/st+1e-9)*st,hi=Math.ceil(max/st-1e-9)*st,t=[];for(let v=lo;v<=hi+st/1e6;v+=st)t.push(+v.toFixed(10));return t}
+const lgd=items=>`<div class="lg">${items.map(i=>`<span><i style="background:${i.lc||i.color};${i.dash?'height:3px':''}"></i>${i.name}</span>`).join("")}</div>`;
+const svg=(w,h,g)=>`<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img">${g}</svg>`;
+const short=(t,n)=>t.length>n?t.slice(0,n-1)+"…":t;
+function lineChart(id,{labels,series,fmt}){const host=$(id),w=host.clientWidth||600,H=(host.clientHeight||280)-28,m={l:44,r:10,t:8,b:24};
+ const vals=series.flatMap(s=>s.data).filter(v=>v!=null),tk=ticks(Math.min(0,...vals),Math.max(...vals),4);
+ const y=v=>m.t+(H-m.t-m.b)*(1-(v-tk[0])/(tk.at(-1)-tk[0])),x=i=>m.l+(w-m.l-m.r)*i/(labels.length-1);let g="";
+ tk.forEach(t=>g+=`<line class="gl" x1="${m.l}" x2="${w-m.r}" y1="${y(t)}" y2="${y(t)}"/><text class="tl" x="${m.l-6}" y="${y(t)+4}" text-anchor="end">${fmt(t)}</text>`);
+ const every=w<480?2:1;labels.forEach((l,i)=>{if(i%every==0)g+=`<text class="tl" x="${x(i)}" y="${H-6}" text-anchor="middle">${l}</text>`});
+ series.forEach(s=>{let d="";s.data.forEach((v,i)=>{if(v==null)return;d+=(d&&s.data[i-1]!=null?"L":"M")+x(i).toFixed(1)+" "+y(v).toFixed(1)});
+  g+=`<path d="${d}" fill="none" style="stroke:${s.color}" stroke-width="2.2" ${s.dash?'stroke-dasharray="6 4"':''}/>`;
+  if(!s.dash)s.data.forEach((v,i)=>{if(v!=null)g+=`<circle cx="${x(i)}" cy="${y(v)}" r="3" style="fill:${s.color}"><title>${s.name}, ${labels[i]}: ${fmt(v)}</title></circle>`})});
+ host.innerHTML=lgd(series)+svg(w,H,g)}
+function hbar(id,{labels,series,fmt,tfmt,stacked=false,legend=true}){tfmt=tfmt||fmt;const host=$(id),w=host.clientWidth||600;const m={l:Math.min(170,Math.round(w*.36)),r:48,t:4,b:22};
+ const rowH=stacked?40:series.length>1?34:24,H=m.t+m.b+rowH*labels.length;
+ const all=stacked?labels.map((_,i)=>series.reduce((a,s)=>a+s.data[i],0)):series.flatMap(s=>s.data);
+ const tk=ticks(Math.min(0,...all),Math.max(0,...all),4),x=v=>m.l+(w-m.l-m.r)*(v-tk[0])/(tk.at(-1)-tk[0]);let g="";
+ tk.forEach(t=>g+=`<line class="gl" y1="${m.t}" y2="${H-m.b}" x1="${x(t)}" x2="${x(t)}"/><text class="tl" y="${H-6}" x="${x(t)}" text-anchor="middle">${tfmt(t)}</text>`);
+ const maxc=Math.floor((m.l-10)/6.2);
+ labels.forEach((l,i)=>{const y0=m.t+i*rowH;g+=`<text class="tl" x="${m.l-8}" y="${y0+rowH/2+4}" text-anchor="end"><title>${l}</title>${short(l,maxc)}</text>`;
+  if(stacked){let acc=0;series.forEach(s=>{const v=s.data[i];g+=`<rect x="${x(acc)}" y="${y0+8}" width="${Math.max(0,x(acc+v)-x(acc))}" height="${rowH-16}" style="fill:${s.color}"><title>${s.name}: ${fmt(v)}</title></rect>`;acc+=v});g+=`<text class="vl" x="${x(acc)+5}" y="${y0+rowH/2+4}">${fmt(acc)}</text>`}
+  else{const bh=(rowH-8)/series.length;series.forEach((s,k)=>{const v=s.data[i],c=typeof s.color=="function"?s.color(v,i):s.color,xa=x(Math.min(0,v)),xb=x(Math.max(0,v)),yy=y0+4+k*bh;
+   g+=`<rect x="${xa}" y="${yy}" width="${Math.max(1.5,xb-xa)}" height="${bh-2}" rx="2" style="fill:${c}"><title>${s.name}: ${fmt(v)}</title></rect><text class="vl" x="${v<0?xa-4:xb+4}" y="${yy+bh/2+3}" text-anchor="${v<0?"end":"start"}">${fmt(v)}</text>`})}});
+ if(tk[0]<0)g+=`<line class="zl" x1="${x(0)}" x2="${x(0)}" y1="${m.t}" y2="${H-m.b}"/>`;
+ host.innerHTML=(legend?lgd(series):"")+svg(w,H,g)}
+function combo(id,{labels,bars,line}){const host=$(id),w=host.clientWidth||600,H=(host.clientHeight||260)-28,m={l:40,r:36,t:8,b:22};
+ const bmin=Math.floor((Math.min(...bars.data)-.01)*20)/20,bmax=Math.ceil((Math.max(...bars.data)+.01)*20)/20;
+ const yb=v=>m.t+(H-m.t-m.b)*(1-(v-bmin)/(bmax-bmin)),lt=ticks(Math.min(...line.data),Math.max(...line.data),4),yl=v=>m.t+(H-m.t-m.b)*(1-(v-lt[0])/(lt.at(-1)-lt[0]));
+ const n=labels.length,bw=(w-m.l-m.r)/n,cx=i=>m.l+bw*(i+.5);let g="";
+ ticks(bmin,bmax,4).filter(t=>t>=bmin-1e-9&&t<=bmax+1e-9).forEach(t=>g+=`<line class="gl" x1="${m.l}" x2="${w-m.r}" y1="${yb(t)}" y2="${yb(t)}"/><text class="tl" x="${m.l-6}" y="${yb(t)+4}" text-anchor="end">${t.toFixed(2)}</text>`);
+ lt.forEach(t=>g+=`<text class="tl" x="${w-m.r+6}" y="${yl(t)+4}">${t}%</text>`);
+ labels.forEach((l,i)=>{const v=bars.data[i];g+=`<rect x="${cx(i)-bw*.32}" y="${yb(v)}" width="${bw*.64}" height="${H-m.b-yb(v)}" rx="2" style="fill:${bars.color};opacity:.7"><title>${l} ${bars.name}: ${v.toFixed(3)}</title></rect><text class="tl" x="${cx(i)}" y="${H-6}" text-anchor="middle">${l}</text>`});
+ let d="";line.data.forEach((v,i)=>d+=(i?"L":"M")+cx(i).toFixed(1)+" "+yl(v).toFixed(1));g+=`<path d="${d}" fill="none" style="stroke:${line.color}" stroke-width="2.2"/>`;
+ line.data.forEach((v,i)=>{const mk=line.marks&&line.marks[i];g+=`<circle cx="${cx(i)}" cy="${yl(v)}" r="${mk?6:3}" style="fill:${mk?"var(--r)":line.color}"><title>${labels[i]} ${line.name}: ${v}%</title></circle>`});
+ host.innerHTML=lgd([{name:bars.name+" (left)",color:bars.color},{name:line.name+" (right)",color:line.color}])+svg(w,H,g)}
+function vbar(id,{labels,data,colors,ref,fmt}){const host=$(id),w=host.clientWidth||600,H=(host.clientHeight||250)-28,m={l:46,r:10,t:18,b:24};
+ const lo=Math.min(...data,ref.value),hi=Math.max(...data,ref.value),pad=(hi-lo)*.6||1,tk=ticks(lo-pad,hi+pad*.4,4);
+ const y=v=>m.t+(H-m.t-m.b)*(1-(v-tk[0])/(tk.at(-1)-tk[0])),bw=(w-m.l-m.r)/labels.length,cx=i=>m.l+bw*(i+.5);let g="";
+ tk.forEach(t=>g+=`<line class="gl" x1="${m.l}" x2="${w-m.r}" y1="${y(t)}" y2="${y(t)}"/><text class="tl" x="${m.l-6}" y="${y(t)+4}" text-anchor="end">${fmt(t)}</text>`);
+ labels.forEach((l,i)=>{const v=data[i];g+=`<rect x="${cx(i)-bw*.3}" y="${y(v)}" width="${bw*.6}" height="${H-m.b-y(v)}" rx="2" style="fill:${colors[i]}"><title>${l}: ${fmt(v)}</title></rect><text class="vl" x="${cx(i)}" y="${y(v)-5}" text-anchor="middle">${fmt(v)}</text><text class="tl" x="${cx(i)}" y="${H-6}" text-anchor="middle">${short(l,Math.floor(bw/6.2))}</text>`});
+ g+=`<line x1="${m.l}" x2="${w-m.r}" y1="${y(ref.value)}" y2="${y(ref.value)}" style="stroke:var(--mute)" stroke-width="1.5" stroke-dasharray="6 4"/>`;
+ host.innerHTML=lgd([{name:"Forecast",color:"var(--ev)"},{name:ref.name+" "+fmt(ref.value),color:"var(--mute)",dash:true}])+svg(w,H,g)}
+const Mf=v=>"$"+v.toFixed(v>=100?0:v>=10?1:2)+"M";
+function draw(){const sec=document.querySelector("section.on");if(!sec)return;const id=sec.id;
+ if(id=="summary"){const c=D.curves.all;lineChart("sc",{labels:D.months,fmt:v=>"$"+v+"M",series:[{name:"Planned (PV)",data:c.pv,color:"var(--pv)",dash:true},{name:"Earned (EV)",data:c.ev,color:"var(--ev)"},{name:"Actual cost (AC)",data:c.ac,color:"var(--ac)"}]})}
+ if(id=="cost"){hbar("be",{labels:D.pkgs.map(p=>p.code+" "+p.name),fmt:Mf,tfmt:v=>"$"+v+"M",series:[{name:"Budget (BAC)",data:D.pkgs.map(p=>p.bac/1e6),color:"var(--pv)"},{name:"Forecast (EAC), orange = over budget",lc:"var(--ac)",data:D.pkgs.map(p=>p.eac/1e6),color:(v,i)=>D.pkgs[i].eac>D.pkgs[i].bac?"var(--ac)":"var(--ev)"}]});
+  const t=D.ot[sel.value];combo("otc",{labels:t.m,bars:{name:"Monthly CPI",data:t.cpi,color:"var(--ev)"},line:{name:"Overtime share",data:t.ot,color:"var(--ac)",marks:t.warn}});
+  const wn=t.m.filter((m,i)=>t.warn[i]);$("otn").textContent=wn.length?`Early warning (overtime share up 1+ point while CPI drops 0.005+): ${wn.join(", ")}. Shown as large red dots.`:"No early warnings for this package."}
+ if(id=="schedule"){hbar("mv",{labels:D.ms.map(m=>m.id+" "+m.name),legend:false,fmt:v=>(v>0?"+":"")+v,series:[{name:"Variance days",lc:"var(--r)",data:D.ms.map(m=>m.var),color:v=>v>0?"var(--r)":"var(--g)"}]})}
+ if(id=="studies"){const p1=D.ot["1.1"];combo("s1c",{labels:p1.m,bars:{name:"Monthly CPI",data:p1.cpi,color:"var(--ev)"},line:{name:"Overtime share",data:p1.ot,color:"var(--ac)"}});
+  vbar("s2c",{labels:["To plan","Reported","CPI x SPI"],data:[S.s2.plan,S.s2.cpi,S.s2.cs].map(v=>v/1e6),colors:["var(--pv)","var(--ev)","var(--ac)"],ref:{name:"Budget",value:S.s2.bac/1e6},fmt:v=>"$"+v.toFixed(2)+"M"});
+  hbar("s3c",{labels:["Pending trends"],stacked:true,fmt:v=>"$"+v.toFixed(2)+"M",tfmt:v=>"$"+v+"M",series:[{name:"Client recoverable",data:[S.s3.client/1e6],color:"var(--g)"},{name:"Internal exposure",data:[S.s3.internal/1e6],color:"var(--r)"}]})}}
+sel.onchange=draw;
+const VIEWS=["studies","summary","cost","schedule","risk","trends"];
+function route(){const h=(location.hash||"").slice(1);const id=VIEWS.includes(h)?h:"studies";
+ document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id==id));document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")=="#"+id));draw();}
+document.querySelectorAll("nav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const h=a.getAttribute("href");try{history.replaceState(null,"",h)}catch(_){}route.call(null);if(location.hash!==h){document.querySelectorAll("section").forEach(s=>s.classList.toggle("on","#"+s.id==h));document.querySelectorAll("nav a").forEach(x=>x.classList.toggle("on",x===a));draw()}}));
+addEventListener("hashchange",route);let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(draw,150)});route();
+</script></body></html>

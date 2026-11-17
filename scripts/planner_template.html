@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Planner Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f5f2;--panel:#fff;--ink:#1d2421;--mute:#5f6b66;--line:#dfe3df;--accent:#1f5f8b;--pv:#8a9590;--ev:#1f5f8b;--ac:#c2571a;--g:#2e7d32;--a:#b7791f;--r:#c0392b;--gbg:#e3f1e4;--abg:#fbf0d9;--rbg:#f8e0dc;--bl:#c9cfca}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141816;--panel:#1d2320;--ink:#e6ebe8;--mute:#9aa7a1;--line:#2e3632;--accent:#6fa8d6;--pv:#7d8984;--ev:#6fa8d6;--ac:#e08a4f;--g:#6cc070;--a:#e0b050;--r:#ec7a6c;--gbg:#1f3322;--abg:#3a3020;--rbg:#3d2420;--bl:#3a4440}}
+:root[data-theme="dark"]{--bg:#141816;--panel:#1d2320;--ink:#e6ebe8;--mute:#9aa7a1;--line:#2e3632;--accent:#6fa8d6;--pv:#7d8984;--ev:#6fa8d6;--ac:#e08a4f;--g:#6cc070;--a:#e0b050;--r:#ec7a6c;--gbg:#1f3322;--abg:#3a3020;--rbg:#3d2420;--bl:#3a4440}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 "IBM Plex Sans",system-ui,sans-serif}
+header{padding:20px 16px 0;max-width:1200px;margin:auto}h1{font-size:20px;margin:0;font-weight:600}
+.sub{color:var(--mute);font-size:13px;margin-top:2px}.badge{display:inline-block;background:var(--abg);color:var(--a);font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:2px}
+nav{display:flex;gap:4px;overflow-x:auto;margin-top:14px;border-bottom:1px solid var(--line)}
+nav a{padding:8px 12px;color:var(--mute);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;font-weight:500}nav a.on{color:var(--ink);border-color:var(--accent)}
+main{max-width:1200px;margin:auto;padding:16px}section{display:none}section.on{display:block}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px}
+.k{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px}.k .l{font-size:12px;color:var(--mute)}.k .v{font:500 19px "IBM Plex Mono",monospace;margin-top:2px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px;margin-bottom:14px;min-width:0}
+.card h2{font-size:14px;margin:0 0 10px;font-weight:600}p.n{color:var(--mute);font-size:12px;margin:8px 0 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:820px){.grid{grid-template-columns:1fr}}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;color:var(--mute);font-weight:500;border-bottom:1px solid var(--line);padding:6px 8px;white-space:nowrap}
+td{padding:6px 8px;border-bottom:1px solid var(--line)}td.num{text-align:right;font-family:"IBM Plex Mono",monospace;white-space:nowrap}
+.pill{padding:1px 7px;border-radius:9px;font-size:12px;font-weight:600;white-space:nowrap}.G{background:var(--gbg);color:var(--g)}.A{background:var(--abg);color:var(--a)}.R{background:var(--rbg);color:var(--r)}
+.study{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}@media(max-width:820px){.study{grid-template-columns:1fr}}
+.study dl{margin:0;display:grid;grid-template-columns:118px 1fr;gap:8px 12px;font-size:13.5px}.study dt{color:var(--mute);font-weight:500}.study dd{margin:0}
+.impact{font:600 15px "IBM Plex Mono",monospace;color:var(--r)}.good{color:var(--g)}.tag{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em}
+.study>*{min-width:0}.svgc{width:100%;min-width:0}select{max-width:100%}#wa{width:100%}
+@media(max-width:520px){.study dl{grid-template-columns:96px minmax(0,1fr)}}
+.gscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}.svgc svg{display:block;overflow:visible;font-family:"IBM Plex Sans",system-ui}
+.gl{stroke:var(--line);stroke-width:1}.tl{fill:var(--mute);font-size:11px}.tlk{fill:var(--ink);font-size:11.5px}.vl{fill:var(--ink);font:500 10.5px "IBM Plex Mono",monospace}
+.lg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--mute);margin:0 0 8px}.lg span{display:inline-flex;align-items:center;gap:6px}.lg i{display:inline-block;width:14px;height:9px;border-radius:2px}
+.ctl{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:12px}.ctl label{font-size:12px;color:var(--mute);display:block;margin-bottom:4px}
+select,button{font:inherit;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:6px 8px}button{cursor:pointer;font-weight:500}button.pri{background:var(--accent);color:#fff;border-color:var(--accent)}
+input[type=range]{width:100%;accent-color:var(--accent)}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.big{font:600 26px "IBM Plex Mono",monospace}.delta{font:600 14px "IBM Plex Mono",monospace}
+.chk{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.chk:last-child{border-bottom:0}.chk .st{flex:0 0 auto;align-self:flex-start;height:fit-content}.chk b{font-weight:600}
+footer{max-width:1200px;margin:auto;padding:0 16px 24px;color:var(--mute);font-size:12px}
+</style></head><body>
+<header><h1>Planner Dashboard <span class="badge">SIMULATION</span></h1>
+<div class="sub">Sample infrastructure schedule · 16 activities · status date Sep 30, 2026</div>
+<nav><a href="#insights">Planner Insights</a><a href="#gantt">Schedule</a><a href="#lookahead">3-Week Look-Ahead</a><a href="#whatif">What-If Simulator</a><a href="#risk">Finish Date Risk</a><a href="#health">Schedule Health</a></nav></header>
+<main>
+<section id="insights"><div class="kpis" id="kpis"></div>
+<div class="card"><div class="tag">Insight 1</div><h2>What is really driving the finish date?</h2><div class="study"><dl id="i1"></dl><div class="svgc" id="i1c"></div></div></div>
+<div class="card"><div class="tag">Insight 2</div><h2>Did finishing the piers early help?</h2><div class="study"><dl id="i2"></dl><div class="svgc" id="i2c"></div></div></div>
+<div class="card"><div class="tag">Insight 3</div><h2>How confident are we in the forecast?</h2><div class="study"><dl id="i3"></dl><div class="svgc" id="i3c"></div></div></div>
+<p class="sub">Each insight: Question, Data, Finding, Impact, Recommendation. Simulated data shows the method, not real project results.</p></section>
+
+<section id="gantt"><div class="kpis" id="sp"></div><p class="n" style="margin:-6px 0 14px">CPLI = (critical path length to baseline finish + float) / that length; below 0.95 means the finish needs a recovery plan. BEI = activities finished / activities due by the status date.</p><div class="card"><h2>Gantt: baseline vs current</h2><div id="glg"></div><div class="gscroll"><div class="svgc" id="gc"></div></div><p class="n">Thin gray bar = baseline. Red = critical path (zero float). Amber = near-critical (1 to 14 days of float). Dashed line = status date. Scroll sideways on a phone.</p></div>
+<div class="card"><h2>Milestones</h2><div class="tw"><table id="mt"></table></div></div></section>
+
+<section id="lookahead"><div class="kpis" id="lk"></div>
+<div class="card"><h2>3-week look-ahead: Oct 5 to Oct 23</h2><div class="sub" id="lmsg" style="font-size:13.5px;margin:0 0 10px"></div><div class="tw"><table id="lt"></table></div>
+<p class="n">Ready = no constraint, or constraint cleared. Open constraints must be cleared by the need-by date or the work slips. Links point to the risk register (R) and cost trends (T) in the Project Controls Dashboard.</p></div></section>
+<section id="whatif"><div class="card"><h2>What-if simulator</h2>
+<div class="ctl"><div><label for="wa">Activity (only work not yet finished can change)</label><select id="wa"></select></div>
+<div><label for="wd">Change to remaining duration: <b id="wdv">0 days</b></label><input id="wd" type="range" min="-20" max="30" step="1" value="0"></div>
+<div class="row"><button data-q="-8">Recover 8 days</button><button data-q="10">Slip 10 days</button><button data-q="20">Slip 20 days</button><button id="wr">Reset</button></div></div>
+<div class="kpis" id="wk"></div><div id="wmsg" class="sub" style="font-size:13.5px;margin-bottom:10px"></div>
+<div class="tw"><table id="wt"></table></div></div></section>
+
+<section id="risk"><div class="card"><h2>Finish date risk (Monte Carlo, 2,000 runs)</h2>
+<p class="sub" style="margin:0 0 10px">Each run varies every unfinished activity's remaining duration between 10% faster and 30% slower (most likely: as planned), then recalculates the critical path.</p>
+<div class="kpis" id="rk"></div><div class="svgc" id="rc"></div>
+<div class="row" style="margin-top:10px"><button class="pri" id="rr">Run again</button><span class="sub" id="rs"></span></div></div>
+<div class="card"><h2>Which activities drive the risk?</h2><div class="tw"><table id="rt"></table></div><p class="n">Criticality = share of runs in which the activity was on the critical path.</p></div></section>
+
+<section id="health"><div class="card"><h2>Schedule quality check</h2><div id="hc"></div><p class="n">Based on common schedule assessment checks (logic, durations, float, critical path test, baseline execution).</p></div></section>
+</main>
+<footer>Simulated data for a portfolio project. Not affiliated with any company or real project. Same sample project as the Project Controls Dashboard.</footer>
+<script>
+const RAW=/*DATA*/null;
+const DAY=864e5,T0=Date.UTC(2026,0,1),d=s=>s?Math.round((Date.UTC(+s.slice(0,4),+s.slice(5,7)-1,+s.slice(8,10))-T0)/DAY):null;
+const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const fd=n=>{const t=new Date(T0+n*DAY),y=t.getUTCFullYear();return MON[t.getUTCMonth()]+" "+String(t.getUTCDate()).padStart(2,"0")+(y!=2026?", "+y:"")};
+const STATUS=d(RAW.status),$=id=>document.getElementById(id);
+const A=RAW.acts.map(a=>({id:a.activity_id,name:a.activity_name,wbs:a.wbs_code,bs:d(a.bl_start),bf:d(a.bl_finish),as:d(a.act_start),af:d(a.act_finish),
+ ff:d(a.fc_finish),dur:a.fc_duration_days===""?null:+a.fc_duration_days,pred:a.predecessors?a.predecessors.split(";"):[],ms:a.milestone_id}));
+A.forEach(a=>{a.state=a.af!=null?"done":a.as!=null?"prog":"todo";if(a.state=="prog")a.rem=a.ff-STATUS});
+const byId=Object.fromEntries(A.map(a=>[a.id,a]));A.forEach(a=>a.succ=A.filter(b=>b.pred.includes(a.id)).map(b=>b.id));
+const MS=Object.fromEntries(RAW.ms.map(m=>[m.milestone_id,m.milestone_name]));
+function cpm(delay={},fac=null){const es={},ef={};
+ for(const a of A){if(a.state=="done"){es[a.id]=a.as;ef[a.id]=a.af;continue}
+  const f=fac?fac[a.id]:1,dl=delay[a.id]||0;
+  if(a.state=="prog"){es[a.id]=a.as;ef[a.id]=STATUS+Math.max(1,Math.round((a.rem+dl)*f))}
+  else{es[a.id]=Math.max(STATUS,...a.pred.map(p=>ef[p]));ef[a.id]=es[a.id]+Math.max(1,Math.round((a.dur+dl)*f))}}
+ const fin=Math.max(...A.map(a=>ef[a.id])),lf={},fl={};
+ for(const a of [...A].reverse()){if(a.state=="done")continue;const ss=a.succ.map(s=>byId[s]).filter(s=>s.state!="done");
+  lf[a.id]=ss.length?Math.min(...ss.map(s=>lf[s.id]-(ef[s.id]-es[s.id]))):fin;fl[a.id]=lf[a.id]-ef[a.id]}
+ return {es,ef,fin,fl}}
+const BASE=cpm(),BLF=Math.max(...A.map(a=>a.bf)),NEAR=14;const tier=(a,res)=>a.state=="done"?"done":res.fl[a.id]<=0?"crit":res.fl[a.id]<=NEAR?"near":"ok";
+const lgd=it=>`<div class="lg">${it.map(i=>`<span><i style="background:${i.c};${i.h?"height:"+i.h+"px":""}"></i>${i.n}</span>`).join("")}</div>`;
+const svg=(w,h,g)=>`<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img">${g}</svg>`;
+const dd=n=>(n>0?"+":"")+n+" days";
+// ---------- Gantt ----------
+function gantt(host,res,opt={}){const el=$(host),W=Math.max(el.parentElement.clientWidth||700,opt.min||760),LW=opt.lw||210,R=10,rowH=26,top=22;
+ const t0=d("2026-01-01"),t1=d("2027-01-31"),x=v=>LW+(W-LW-R)*(v-t0)/(t1-t0),H=top+rowH*A.length+6;let g="";
+ for(let m=0;m<=12;m++){const v=d(m<12?`2026-${String(m+1).padStart(2,"0")}-01`:"2027-01-01");g+=`<line class="gl" x1="${x(v)}" x2="${x(v)}" y1="${top-4}" y2="${H}"/><text class="tl" x="${x(v)+3}" y="${top-8}">${m<12?MON[m]:"Jan '27"}</text>`}
+ A.forEach((a,i)=>{const y=top+i*rowH,crit=a.state!="done"&&res.fl[a.id]===0;
+  g+=`<text class="tlk" x="4" y="${y+16}"><tspan font-weight="600">${a.id}</tspan> ${a.name.length>26?a.name.slice(0,25)+"…":a.name}<title>${a.id} ${a.name}</title></text>`;
+  g+=`<rect x="${x(a.bs)}" y="${y+18}" width="${Math.max(2,x(a.bf)-x(a.bs))}" height="4" rx="1" style="fill:var(--bl)"><title>Baseline ${fd(a.bs)} to ${fd(a.bf)}</title></rect>`;
+  const s=res.es[a.id],f=res.ef[a.id],tr=tier(a,res),col=tr=="done"?"var(--pv)":tr=="crit"?"var(--r)":tr=="near"?"var(--a)":"var(--ev)";
+  g+=`<rect x="${x(s)}" y="${y+5}" width="${Math.max(2,x(f)-x(s))}" height="11" rx="2" style="fill:${col};opacity:${a.state=="todo"?.75:1}"><title>${a.id} ${a.name}: ${fd(s)} to ${fd(f)}${a.state!="done"?", float "+res.fl[a.id]+" days":""}</title></rect>`;
+  if(a.state=="prog")g+=`<rect x="${x(s)}" y="${y+5}" width="${Math.max(0,x(STATUS)-x(s))}" height="11" rx="2" style="fill:var(--ink);opacity:.18"/>`;
+  if(a.ms){const v=f-a.bf;g+=`<text class="vl" x="${x(f)+5}" y="${y+15}" style="fill:${v>0?"var(--r)":"var(--g)"}">${a.ms} ${v>0?"+":""}${v}</text>`}});
+ g+=`<line x1="${x(STATUS)}" x2="${x(STATUS)}" y1="${top-4}" y2="${H}" style="stroke:var(--ac)" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+ el.innerHTML=svg(W,H,g)}
+// ---------- small charts ----------
+function hbars(host,rows,fmt,colorFn){const el=$(host);el.innerHTML="";const w=el.clientWidth||320,LW=Math.min(170,w*.4),rowH=26,H=rowH*rows.length+22,mx0=Math.max(...rows.map(r=>r.v),0),mn0=Math.min(0,...rows.map(r=>r.v)),sp=Math.max(mx0-mn0,1),mx=mx0+sp*.12,mn=mn0<0?mn0-sp*.22:0;
+ const x=v=>LW+(w-LW-56)*(v-mn)/(mx-mn);let g="";rows.forEach((r,i)=>{const y=i*rowH,xa=x(Math.min(0,r.v)),xb=x(Math.max(0,r.v));
+  g+=`<text class="tl" x="${LW-8}" y="${y+17}" text-anchor="end">${r.k}</text><rect x="${xa}" y="${y+5}" width="${Math.max(2,xb-xa)}" height="15" rx="2" style="fill:${colorFn(r)}"/><text class="vl" x="${r.v<0?xa-4:xb+4}" y="${y+16}" text-anchor="${r.v<0?"end":"start"}">${fmt(r.v)}</text>`});
+ g+=`<line class="gl" x1="${x(0)}" x2="${x(0)}" y1="0" y2="${H-20}"/>`;el.innerHTML=svg(w,H,g)}
+// ---------- Monte Carlo ----------
+function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function tri(u,a,m,b){const c=(m-a)/(b-a);return u<c?a+Math.sqrt(u*(b-a)*(m-a)):b-Math.sqrt((1-u)*(b-a)*(b-m))}
+function monte(seed,n=2000){const r=rng(seed),out=[],crit={};A.forEach(a=>crit[a.id]=0);
+ for(let k=0;k<n;k++){const fac={};A.forEach(a=>{if(a.state!="done")fac[a.id]=tri(r(),.9,1,1.3)});const res=cpm({},fac);out.push(res.fin);A.forEach(a=>{if(a.state!="done"&&res.fl[a.id]===0)crit[a.id]++})}
+ out.sort((p,q)=>p-q);const P=q=>out[Math.min(out.length-1,Math.floor(q*out.length))];
+ return {out,p10:P(.1),p50:P(.5),p80:P(.8),p90:P(.9),onBase:out.filter(v=>v<=BLF).length/n,onFc:out.filter(v=>v<=BASE.fin).length/n,crit,n}}
+let MC=monte(42),seed=42;
+function hist(host,mc){const el=$(host);el.innerHTML="";const w=el.clientWidth||320,H=230,m={l:36,r:10,t:22,b:26},lo=mc.out[0],hi=mc.out.at(-1),bw=Math.max(2,Math.ceil((hi-lo+1)/24));
+ const bins={};mc.out.forEach(v=>{const b=lo+Math.floor((v-lo)/bw)*bw;bins[b]=(bins[b]||0)+1});const keys=Object.keys(bins).map(Number).sort((a,b)=>a-b),mx=Math.max(...Object.values(bins));
+ const x0=Math.min(lo,BLF)-3,x1=hi+bw+3,x=v=>m.l+(w-m.l-m.r)*(v-x0)/(x1-x0),y=v=>H-m.b-(H-m.t-m.b)*v/mx;let g="";
+ keys.forEach(k=>{g+=`<rect x="${x(k)+1}" y="${y(bins[k])}" width="${Math.max(1,x(k+bw)-x(k)-2)}" height="${H-m.b-y(bins[k])}" style="fill:${k+bw-1<=BLF?"var(--g)":k<=mc.p80?"var(--ev)":"var(--ac)"};opacity:.8"><title>${fd(k)} to ${fd(k+bw-1)}: ${bins[k]} runs</title></rect>`});
+ const mark=(v,label,c,row)=>g+=`<line x1="${x(v)}" x2="${x(v)}" y1="${m.t-4}" y2="${H-m.b}" style="stroke:${c}" stroke-width="1.5" stroke-dasharray="4 3"/><text class="vl" x="${x(v)+4}" y="${m.t+row*13}" style="fill:${c}">${label}</text>`;
+ mark(BLF,"Baseline "+fd(BLF),"var(--g)",0);mark(mc.p50,"P50 "+fd(mc.p50),"var(--ink)",1);mark(mc.p80,"P80 "+fd(mc.p80),"var(--r)",2);
+ const step=Math.max(7,Math.round((x1-x0)/6/7)*7);for(let v=x0+3;v<=x1;v+=step)g+=`<text class="tl" x="${x(v)}" y="${H-8}" text-anchor="middle">${fd(Math.round(v)).replace(", 2027","")}</text>`;
+ g+=`<text class="tl" x="${m.l-6}" y="${m.t+4}" text-anchor="end">runs</text>`;el.innerHTML=svg(w,H,g)}
+// ---------- render ----------
+const nearIds=A.filter(a=>tier(a,BASE)=="near").map(a=>a.id),late=BASE.fin-BLF,critIds=A.filter(a=>a.state!="done"&&BASE.fl[a.id]===0).map(a=>a.id);
+const k=(id,arr)=>$(id).innerHTML=arr.map(([l,v,c])=>`<div class="k"><div class="l">${l}</div><div class="v" style="${c?"color:var(--"+c+")":""}">${v}</div></div>`).join("");
+const msA=A.filter(a=>a.ms),msLate=msA.filter(a=>BASE.ef[a.id]>a.bf).length;
+k("kpis",[["Baseline finish",fd(BLF)],["Forecast finish",fd(BASE.fin),late>0?"r":"g"],["Finish variance",dd(late),late>0?"r":"g"],["Critical path",critIds.join(" > ")],["Near-critical",nearIds.map(i=>i+" ("+BASE.fl[i]+" d)").join(", ")||"None","a"],["Milestones late",msLate+" of "+msA.length],["P80 finish (risk)",fd(MC.p80),"a"]]);
+const dl=(id,rows)=>$(id).innerHTML=rows.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("");
+const a10=byId.A10,a04=byId.A04;
+dl("i1",[["Question","The project forecast is "+fd(BASE.fin)+". Which work is setting that date?"],["Data","Activity logic, remaining durations, total float (critical path method)."],
+ ["Finding",`The critical path runs through the utilities: ${critIds.map(i=>i+" "+byId[i].name).join(", then ")}. Near-critical: A10 Foundations zone 2 has only ${BASE.fl.A10} days of float, so a 2-week slip there would make it critical too.`],
+ ["Impact",`Turnover is <span class="impact">${dd(late)}</span> late against the ${fd(BLF)} baseline.`],
+ ["Recommendation","Put recovery effort on A12 (remaining utility runs). Recovering 8 days there brings turnover back to the baseline. Use the What-If tab to test it."]]);
+hbars("i1c",A.filter(a=>a.state!="done").map(a=>({k:a.id+" float",v:BASE.fl[a.id]})),v=>v+" d",r=>r.v<=0?"var(--r)":r.v<=NEAR?"var(--a)":"var(--ev)");
+dl("i2",[["Question","Drilled piers finished early. Did that pull the finish date in?"],["Data","Actual vs baseline finish, successor logic, float."],
+ ["Finding",`Piers zone 2 (A04) finished ${a04.bf-a04.af} days early, so Foundations zone 2 (A10) started ${a10.bs-a10.as} days early. A10 is still forecast to finish on ${fd(BASE.ef.A10)} with ${BASE.fl.A10} days of float, so the gain became float, not an earlier finish.`],
+ ["Impact",`<span class="impact">0 days</span> gained at turnover from finishing early. The cost dashboard shows what the overtime behind it cost.`],
+ ["Recommendation","Speed up only work that is on, or near, the critical path. Check float before approving acceleration or overtime."]]);
+hbars("i2c",[{k:"A04 piers finish",v:a04.af-a04.bf},{k:"A10 start",v:a10.as-a10.bs},{k:"A10 finish",v:BASE.ef.A10-a10.bf},{k:"Turnover",v:late}],v=>(v>0?"+":"")+v+" d",r=>r.v>0?"var(--r)":r.v<0?"var(--g)":"var(--pv)");
+function renderI3(){dl("i3",[["Question",`The forecast says ${fd(BASE.fin)}. How likely is that date?`],["Data","Monte Carlo: 2,000 runs with uncertain remaining durations."],
+ ["Finding",`Only ${Math.round(MC.onFc*100)}% of runs finish by the forecast date, and ${Math.round(MC.onBase*100)}% by the ${fd(BLF)} baseline. The middle outcome (P50) is ${fd(MC.p50)}.`],
+ ["Impact",`For an 80% confident date, plan for <span class="impact">${fd(MC.p80)}</span>, ${MC.p80-BASE.fin} days after the single-point forecast.`],
+ ["Recommendation","Report a P80 date to management alongside the forecast, and hold schedule contingency for the utilities path."]]);hist("i3c",MC)}
+renderI3();
+// gantt + milestones
+$("glg").innerHTML=lgd([{n:"Complete",c:"var(--pv)"},{n:"Critical",c:"var(--r)"},{n:"Near-critical",c:"var(--a)"},{n:"Has float",c:"var(--ev)"},{n:"Baseline",c:"var(--bl)",h:4},{n:"Status date",c:"var(--ac)",h:2}]);
+$("mt").innerHTML="<tr><th>ID</th><th>Milestone</th><th>Activity</th><th>Baseline</th><th>Actual / forecast</th><th>Days</th></tr>"+msA.sort((p,q)=>p.bf-q.bf).map(a=>{const v=BASE.ef[a.id]-a.bf;return `<tr><td>${a.ms}</td><td>${MS[a.ms]||""}</td><td>${a.id}</td><td>${fd(a.bf)}</td><td>${fd(BASE.ef[a.id])}${a.state=="done"?"":" (fc)"}</td><td class="num" style="color:var(--${v>0?"r":"g"})">${v>0?"+":""}${v}</td></tr>`}).join("");
+// what-if
+const open=A.filter(a=>a.state!="done");$("wa").innerHTML=open.map(a=>`<option value="${a.id}" ${a.id=="A12"?"selected":""}>${a.id} ${a.name} (float ${BASE.fl[a.id]} d${tier(a,BASE)=="crit"?", critical":tier(a,BASE)=="near"?", near-critical":""})</option>`).join("");
+function whatif(){const id=$("wa").value,n=+$("wd").value;$("wdv").textContent=(n>0?"+":"")+n+" days";const r=cpm({[id]:n}),mv=r.fin-BASE.fin,vb=r.fin-BLF;
+ k("wk",[["New finish",fd(r.fin),vb>0?"r":"g"],["vs current forecast",dd(mv),mv>0?"r":mv<0?"g":""],["vs baseline",dd(vb),vb>0?"r":"g"],["Critical path",A.filter(a=>a.state!="done"&&r.fl[a.id]===0).map(a=>a.id).join(" > ")]]);
+ const fl=BASE.fl[id];$("wmsg").innerHTML=n===0?(fl===0?`${id} is on the critical path: every day of delay moves the finish, and every day recovered pulls it in.`:`${id} has <b>${fl} days</b> of float. Delays up to ${fl} days do not move the finish.`):n>0&&n<=fl?`${id} slips ${n} days but has ${fl} days of float, so the finish does not move. Float left: ${fl-n} day${fl-n==1?"":"s"}.`:n>0?`${id} slips ${n} days. ${fl} days are absorbed by float and the finish moves <b>${mv} days</b>.`:mv<0?`Recovering ${-n} days on ${id} pulls the finish in by <b>${-mv} days</b>${vb<=0?", back on or before the baseline.":"."}`:`${id} is not on the critical path, so recovering time here does not move the finish.`;
+ $("wt").innerHTML="<tr><th>Milestone</th><th>Baseline</th><th>Current forecast</th><th>What-if</th><th>Change</th></tr>"+msA.filter(a=>a.state!="done").map(a=>{const c=r.ef[a.id]-BASE.ef[a.id];return `<tr><td>${a.ms} ${MS[a.ms]||""}</td><td>${fd(a.bf)}</td><td>${fd(BASE.ef[a.id])}</td><td>${fd(r.ef[a.id])}</td><td class="num" style="color:var(--${c>0?"r":c<0?"g":"mute"})">${c>0?"+":""}${c}</td></tr>`}).join("")}
+$("wa").onchange=whatif;$("wd").oninput=whatif;document.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{$("wd").value=b.dataset.q;whatif()});$("wr").onclick=()=>{$("wd").value=0;$("wa").value="A12";whatif()};whatif();
+// risk
+function renderRisk(){k("rk",[["P50 (median)",fd(MC.p50)],["P80",fd(MC.p80),"a"],["P90",fd(MC.p90),"r"],["Chance by forecast "+fd(BASE.fin),Math.round(MC.onFc*100)+"%"],["Chance by baseline "+fd(BLF),Math.round(MC.onBase*100)+"%"]]);
+ hist("rc",MC);$("rs").textContent=`Seed ${seed} · ${MC.n} runs`;
+ $("rt").innerHTML="<tr><th>Activity</th><th>Float today</th><th>Criticality</th></tr>"+open.map(a=>({a,c:MC.crit[a.id]/MC.n})).sort((p,q)=>q.c-p.c).map(({a,c})=>`<tr><td>${a.id} ${a.name}</td><td class="num">${BASE.fl[a.id]} d</td><td class="num"><span class="pill ${c>.5?"R":c>.1?"A":"G"}">${Math.round(c*100)}%</span></td></tr>`).join("")}
+renderRisk();$("rr").onclick=()=>{seed=Math.floor(Math.random()*1e6);MC=monte(seed);renderRisk();renderI3()};
+// health
+(function(){const noPred=A.filter(a=>!a.pred.length).map(a=>a.id),noSucc=A.filter(a=>!a.succ.length).map(a=>a.id);
+ const openEnds=noSucc.filter(i=>i!="A16"),startIds=noPred;
+ const dur=a=>(a.state=="done"?a.af-a.as:(a.bf-a.bs)),longs=A.filter(a=>dur(a)>60),neg=open.filter(a=>BASE.fl[a.id]<0);
+ const t=cpm({A12:10}),cpTest=t.fin-BASE.fin==10;
+ const due=A.filter(a=>a.bf<=STATUS),doneDue=due.filter(a=>a.state=="done"),lateDone=A.filter(a=>a.state=="done"&&a.af>a.bf);
+ const rows=[[openEnds.length?"A":"G","Logic: open ends",openEnds.length?`${openEnds.map(i=>i+" "+byId[i].name).join(", ")} has no successor, so a delay there would not show up in the finish date. Fix: link it to the work it enables.`:"Every activity has a successor."],
+  ["G","Logic: start points",`Only ${startIds.join(" and ")} have no predecessor (project start activities).`],
+  [longs.length?"A":"G","Long durations",`${longs.length} of ${A.length} activities run longer than 60 days (${longs.map(a=>a.id).join(", ")}). Fix: split them into smaller pieces so progress can be measured and slips are caught earlier.`],
+  [neg.length?"R":"G","Negative float",neg.length?`${neg.length} activities have negative float.`:"No activity has negative float."],
+  [cpTest?"G":"R","Critical path test",cpTest?"Adding 10 days to A12 moves the finish by exactly 10 days, so the critical path is continuous.":"Adding 10 days to A12 did not move the finish by 10 days. Check the logic."],
+  [doneDue.length==due.length?"G":"A","Baseline execution",`${doneDue.length} of ${due.length} activities due by the status date are complete (index ${(doneDue.length/due.length).toFixed(2)}). ${lateDone.length} of ${A.filter(a=>a.state=="done").length} finished activities finished after their baseline date.`]];
+ $("hc").innerHTML=rows.map(([c,h,t])=>`<div class="chk"><span class="st pill ${c}">${c=="G"?"Pass":c=="A"?"Review":"Fail"}</span><div><b>${h}.</b> ${t}</div></div>`).join("")})();
+// schedule performance metrics
+(function(){const cpLen=BLF-STATUS,cpli=(cpLen+(BLF-BASE.fin))/cpLen,due=A.filter(a=>a.bf<=STATUS),bei=due.filter(a=>a.state=="done").length/due.length;
+ k("sp",[["SPI (cost data)",RAW.spi.toFixed(3),RAW.spi>=.98?"g":RAW.spi>=.95?"a":"r"],["CPLI",cpli.toFixed(3),cpli>=.95?"g":cpli>=.9?"a":"r"],["BEI",bei.toFixed(2),bei>=.95?"g":"a"],["Finish variance",dd(late),late>0?"r":"g"],["Critical / near-critical",critIds.length+" / "+nearIds.length]]);})();
+// look-ahead
+(function(){const L=RAW.la,isOpen=r=>r.constraint_status=="Open",crit=id=>tier(byId[id],BASE);
+ const op=L.filter(isOpen),opC=op.filter(r=>crit(r.activity_id)=="crit"),ready=L.length-op.length;
+ k("lk",[["Tasks planned",L.length],["Ready to start",Math.round(ready/L.length*100)+"%",ready/L.length>=.8?"g":"a"],["Open constraints",op.length,op.length?"a":"g"],["Open on critical path",opC.length,opC.length?"r":"g"]]);
+ const first=opC.slice().sort((p,q)=>p.need_by.localeCompare(q.need_by))[0];
+ $("lmsg").innerHTML=opC.length?`<b>${opC.length} open constraints sit on the critical path (A12).</b> The first is "${first.constraint}", owned by the ${first.constraint_owner}, needed by ${fd(d(first.need_by))}${first.register_link?" (risk "+first.register_link+")":""}. If it is not cleared, A12 slips and turnover moves day for day.`:"No open constraints on the critical path.";
+ let wk="",h="<tr><th>Week of</th><th>Activity</th><th>Task</th><th>Qty</th><th>Constraint</th><th>Owner</th><th>Need by</th><th>Status</th></tr>";
+ L.forEach(r=>{const t=crit(r.activity_id),st=r.constraint_status,c=st=="Open"?(t=="crit"?"R":"A"):"G";
+  h+=`<tr${r.week_start!=wk&&wk?' style="border-top:2px solid var(--line)"':""}><td>${r.week_start!=wk?fd(d(r.week_start)):""}</td><td>${r.activity_id}${t=="crit"?' <span class="pill R">CP</span>':t=="near"?' <span class="pill A">NC</span>':""}</td><td>${r.task}</td><td class="num">${r.quantity} ${r.unit}</td><td>${r.constraint||"None"}${r.register_link?" ("+r.register_link+")":""}</td><td>${r.constraint_owner}</td><td>${r.need_by?fd(d(r.need_by)):""}</td><td><span class="pill ${c}">${st}</span></td></tr>`;wk=r.week_start});
+ $("lt").innerHTML=h})();
+// routing
+const V=["insights","gantt","lookahead","whatif","risk","health"];
+function draw(id){if(id=="gantt")gantt("gc",BASE);if(id=="insights"){hbars("i1c",A.filter(a=>a.state!="done").map(a=>({k:a.id+" float",v:BASE.fl[a.id]})),v=>v+" d",r=>r.v<=0?"var(--r)":r.v<=NEAR?"var(--a)":"var(--ev)");renderI3()}if(id=="risk")hist("rc",MC)}
+function show(id){document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id==id));document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")=="#"+id));draw(id)}
+function route(){const h=(location.hash||"").slice(1);show(V.includes(h)?h:"insights")}
+document.querySelectorAll("nav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const h=a.getAttribute("href");try{history.replaceState(null,"",h)}catch(_){}show(h.slice(1))}));
+addEventListener("hashchange",route);let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(()=>draw(document.querySelector("section.on").id),150)});route();
+</script></body></html>
